@@ -6,11 +6,11 @@
 
 # user
 GET         /user                   controllers.UserController.listUsers
-GET         /user/:userId           controllers.UserController.getUser(userId: long)
-PUT         /user                   controllers.UserController.updateUser
-DELETE      /user/:userId           controllers.UserController.deleteUser(userId: long)
-POST        /user                   controllers.UserController.newUser
+#GET         /user/:userId           controllers.UserController.getUser(userId: Long)
+#PUT         /user                   controllers.UserController.updateUser
+#DELETE      /user/:userId           controllers.UserController.deleteUser(userId: Long)
+#POST        /user                   controllers.UserController.newUser
 
-POST     /books                           controllers.Application.saveBook
+#POST     /books                           controllers.Application.saveBook
 
 
