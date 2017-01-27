@@ -1,15 +1,15 @@
-# Users SCHEMA
-
 # --- !Ups
 
-CREATE TABLE User(
-    id bigint(20) NOT NULL AUTO_INCREMENT,
-    firstname varchar(255) NOT NULL,
-    lastname varchar(255) NOT NULL,
-    email varchar(255) NOT NULL,
-    PRIMARY KEY (id)
+CREATE TABLE Person(
+  id INT PRIMARY KEY NOT NULL,
+  email varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  firstname varchar(255) NOT NULL,
+  lastname varchar(255) NOT NULL,
+  login varchar(255) NOT NULL,
+  isAdmin boolean NOT NULL
 );
 
 # --- !Downs
 
-DROP TABLE User;
+DROP TABLE Person;
