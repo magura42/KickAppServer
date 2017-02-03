@@ -5,7 +5,7 @@
 
 
 # user
-GET         /user                   controllers.UserController.listUsers
+GET         /user                   @controllers.UserController.listUsers
 #GET         /user/:userId           controllers.UserController.getUser(userId: Long)
 #PUT         /user                   controllers.UserController.updateUser
 #DELETE      /user/:userId           controllers.UserController.deleteUser(userId: Long)
