@@ -10,7 +10,7 @@ CREATE TABLE person(
   isadmin boolean NOT NULL
 );
 
-INSERT INTO person (firstname", "lastname", "email", "login", "isadmin", "password") VALUES ('Manfred2', 'Harrer', 'tne@gmx.li', 'mharrer', true, 'parzival');
+INSERT INTO person ("firstname", "lastname", "email", "login", "isadmin", "password") VALUES ('Manfred2', 'Harrer', 'tne@gmx.li', 'mharrer', true, 'parzival');
 
 
 # --- !Downs

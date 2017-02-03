@@ -4,9 +4,9 @@
 
 
 
-# user
-GET         /user                   @controllers.UserController.listUsers
-#GET         /user/:userId           controllers.UserController.getUser(userId: Long)
+# person
+GET         /person                 @controllers.PersonController.listPersons
+GET         /person/:personId       @controllers.PersonController.getPerson(personId: Int)
 #PUT         /user                   controllers.UserController.updateUser
 #DELETE      /user/:userId           controllers.UserController.deleteUser(userId: Long)
 #POST        /user                   controllers.UserController.newUser
