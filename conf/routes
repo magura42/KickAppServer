@@ -7,10 +7,7 @@
 # person
 GET         /person                 @controllers.PersonController.listPersons
 GET         /person/:personId       @controllers.PersonController.getPerson(personId: Int)
-#PUT         /user                   controllers.UserController.updateUser
-#DELETE      /user/:userId           controllers.UserController.deleteUser(userId: Long)
-#POST        /user                   controllers.UserController.newUser
-
-#POST     /books                           controllers.Application.saveBook
-
+PUT         /person/:personId       @controllers.PersonController.updatePerson(personId: Int)
+POST        /person                 @controllers.PersonController.createPerson
+DELETE      /person/:personId       @controllers.PersonController.deletePerson(personId: Int)
 
