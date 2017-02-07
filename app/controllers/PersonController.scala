@@ -32,8 +32,12 @@ class PersonController @Inject()(personDao: PersonDAO) extends Controller {
 
   def updatePerson(personId: Int) = Action.async(parse.json[Person]) { implicit request =>
     val person: Person = request.body
-    val result = personDao.updatePerson(personId, person)
-    Future.successful(Created)
+    val affectedRowsCount: Future[Int] = personDao.updatePerson(personId, person)
+    affectedRowsCount map {
+      case 1 => Ok
+      case 0 => NotFound
+      case _ => InternalServerError
+    }
   }
 
 
@@ -48,10 +52,10 @@ class PersonController @Inject()(personDao: PersonDAO) extends Controller {
   def deletePerson(personId: Int) = Action.async { implicit request =>
     val affectedRowsCount: Future[Int] = personDao.deletePerson(personId)
     affectedRowsCount map {
-      case p => Ok(Json.toJson(p))
+      case 1 => Ok
+      case 0 => NotFound
       case _ => InternalServerError
     }
-
   }
 
 }

@@ -41,7 +41,7 @@ class PersonDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvid
     db.run(query)
   }
 
-  def updatePerson(personId: Int, person: Person) = {
+  def updatePerson(personId: Int, person: Person): Future[Int] = {
     val personToUpdate: Person = person.copy(personId)
     db.run(persons.filter(_.id === personId).update(personToUpdate))
   }
