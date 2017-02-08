@@ -1,0 +1,27 @@
+#%RAML 1.0
+title: Kickapp Server
+version: v1
+baseUri: http://
+mediaType: [ application/json ]
+
+description: |
+    RestAPI of the KickApp server.
+
+types:
+    Person:
+        type: object
+        properties:
+            id: Int
+            firstname: string
+            lastname: string
+            email: string
+            password: string
+            login: string
+            isAdmin: Boolean
+
+/person:
+    get:
+        description: Get all persons, no filter.
+        responses:
+            200:
+                body: list of persons
