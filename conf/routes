@@ -2,12 +2,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-
+# club
+GET           /club                    @controllers.ClubController.listClubs
+GET           /club/:clubId            @controllers.ClubController.getClub(clubId: Int)
+PUT           /club/:clubId            @controllers.ClubController.updateClub(clubId: Int)
+POST          /club                    @controllers.ClubController.createClub
+DELETE        /club/:clubId            @controllers.ClubController.deleteClub(clubId: Int)
 
 # person
-GET         /person                 @controllers.PersonController.listPersons
-GET         /person/:personId       @controllers.PersonController.getPerson(personId: Int)
-PUT         /person/:personId       @controllers.PersonController.updatePerson(personId: Int)
-POST        /person                 @controllers.PersonController.createPerson
-DELETE      /person/:personId       @controllers.PersonController.deletePerson(personId: Int)
+GET           /person                  @controllers.PersonController.listPersons
+GET           /person/:personId        @controllers.PersonController.getPerson(personId: Int)
+PUT           /person/:personId        @controllers.PersonController.updatePerson(personId: Int)
+POST          /person                  @controllers.PersonController.createPerson
+DELETE        /person/:personId        @controllers.PersonController.deletePerson(personId: Int)
 
