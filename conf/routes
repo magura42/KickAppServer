@@ -9,6 +9,14 @@ PUT           /club/:clubId            @controllers.ClubController.updateClub(cl
 POST          /club                    @controllers.ClubController.createClub
 DELETE        /club/:clubId            @controllers.ClubController.deleteClub(clubId: Int)
 
+# team
+GET           /team                    @controllers.TeamController.getTeams(clubId: Option[Int])
+GET           /team/:teamId            @controllers.TeamController.getTeam(teamId: Int)
+PUT           /team/:teamId            @controllers.TeamController.updateTeam(teamId: Int)
+POST          /team                    @controllers.TeamController.createTeam
+DELETE        /team/:teamId            @controllers.TeamController.deleteTeam(teamId: Int)
+
+
 # person
 GET           /person                  @controllers.PersonController.listPersons
 GET           /person/:personId        @controllers.PersonController.getPerson(personId: Int)

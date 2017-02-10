@@ -19,11 +19,11 @@ class ClubTable(tag: Tag) extends Table[Club](tag, "club") {
   def street = column[String]("street")
   def zipcode = column[String]("zipcode")
   def city = column[String]("city")
-  def logo = column[Array[Byte]]("logo")
-  def contact = column[String]("contact")
-  def email = column[String]("email")
-  def telefon = column[String]("telefon")
-  def web = column[String]("web")
+  def logo = column[Option[Array[Byte]]]("logo")
+  def contact = column[Option[String]]("contact")
+  def email = column[Option[String]]("email")
+  def telefon = column[Option[String]]("telefon")
+  def web = column[Option[String]]("web")
   def * = (clubid, name, street, zipcode, city, logo, contact, email, telefon, web) <> (Club.tupled, Club.unapply _)
 }
 
