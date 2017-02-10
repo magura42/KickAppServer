@@ -2,15 +2,20 @@
 
 CREATE TABLE person(
   personid SERIAL PRIMARY KEY,
-  email VARCHAR(255),
-  password VARCHAR(255) NOT NULL,
   firstname VARCHAR(255) NOT NULL,
   lastname VARCHAR(255) NOT NULL,
+  street VARCHAR(50) NOT NULL,
+  zipcode VARCHAR(10) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  telephone VARCHAR(50),
+  email VARCHAR(50),
+  birthday DATE,
   login VARCHAR(255) NOT NULL,
-  isadmin BOOLEAN NOT NULL
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(10) NOT NULL
 );
 
-INSERT INTO person ("firstname", "lastname", "email", "login", "isadmin", "password") VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'mharrer', true, 'mharrer');
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer');
 
 CREATE TABLE club(
   clubid SERIAL PRIMARY KEY,
