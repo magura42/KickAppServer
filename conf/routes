@@ -3,24 +3,32 @@
 # ~~~~
 
 # club
-GET           /club                    @controllers.ClubController.listClubs
-GET           /club/:clubId            @controllers.ClubController.getClub(clubId: Int)
-PUT           /club/:clubId            @controllers.ClubController.updateClub(clubId: Int)
-POST          /club                    @controllers.ClubController.createClub
-DELETE        /club/:clubId            @controllers.ClubController.deleteClub(clubId: Int)
+GET           /club                            @controllers.ClubController.listClubs
+GET           /club/:clubId                    @controllers.ClubController.getClub(clubId: Int)
+PUT           /club/:clubId                    @controllers.ClubController.updateClub(clubId: Int)
+POST          /club                            @controllers.ClubController.createClub
+DELETE        /club/:clubId                    @controllers.ClubController.deleteClub(clubId: Int)
 
 # team
-GET           /team                    @controllers.TeamController.getTeams(clubId: Option[Int])
-GET           /team/:teamId            @controllers.TeamController.getTeam(teamId: Int)
-PUT           /team/:teamId            @controllers.TeamController.updateTeam(teamId: Int)
-POST          /team                    @controllers.TeamController.createTeam
-DELETE        /team/:teamId            @controllers.TeamController.deleteTeam(teamId: Int)
+GET           /team                            @controllers.TeamController.getTeams(clubId: Option[Int])
+GET           /team/:teamId                    @controllers.TeamController.getTeam(teamId: Int)
+PUT           /team/:teamId                    @controllers.TeamController.updateTeam(teamId: Int)
+POST          /team                            @controllers.TeamController.createTeam
+DELETE        /team/:teamId                    @controllers.TeamController.deleteTeam(teamId: Int)
 
 
 # person
-GET           /person                  @controllers.PersonController.listPersons
-GET           /person/:personId        @controllers.PersonController.getPerson(personId: Int)
-PUT           /person/:personId        @controllers.PersonController.updatePerson(personId: Int)
-POST          /person                  @controllers.PersonController.createPerson
-DELETE        /person/:personId        @controllers.PersonController.deletePerson(personId: Int)
+GET           /person                          @controllers.PersonController.listPersons
+GET           /person/:personId                @controllers.PersonController.getPerson(personId: Int)
+PUT           /person/:personId                @controllers.PersonController.updatePerson(personId: Int)
+POST          /person                          @controllers.PersonController.createPerson
+DELETE        /person/:personId                @controllers.PersonController.deletePerson(personId: Int)
+GET           /person/:personId/parents        @controllers.ParenthoodController.getParents(personId: Int)
+GET           /person/:personId/childs         @controllers.ParenthoodController.getChilds(personId: Int)
 
+# parenthood
+GET           /parenthood                      @controllers.ParenthoodController.listParenthoods
+GET           /parenthood/:parenthoodId        @controllers.ParenthoodController.getParenthood(parenthoodId: Int)
+PUT           /parenthood/:parenthoodId        @controllers.ParenthoodController.updateParenthood(parenthoodId: Int)
+POST          /parenthood                      @controllers.ParenthoodController.createParenthood
+DELETE        /parenthood/:parenthoodId        @controllers.ParenthoodController.deleteParenthood(parenthoodId: Int)

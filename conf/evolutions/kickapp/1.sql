@@ -1,21 +1,5 @@
 # --- !Ups
 
-CREATE TABLE person(
-  personid SERIAL PRIMARY KEY,
-  firstname VARCHAR(255) NOT NULL,
-  lastname VARCHAR(255) NOT NULL,
-  street VARCHAR(50) NOT NULL,
-  zipcode VARCHAR(10) NOT NULL,
-  city VARCHAR(50) NOT NULL,
-  telephone VARCHAR(50),
-  email VARCHAR(50),
-  birthday DATE,
-  login VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  role VARCHAR(10) NOT NULL
-);
-
-INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer');
 
 CREATE TABLE club(
   clubid SERIAL PRIMARY KEY,
@@ -43,7 +27,40 @@ CREATE TABLE team(
 
 INSERT INTO team ("name", "fromyear", "toyear", "clubid") VALUES ('F1', 2008, 2008, 1);
 
+CREATE TABLE person(
+  personid SERIAL PRIMARY KEY,
+  firstname VARCHAR(255) NOT NULL,
+  lastname VARCHAR(255) NOT NULL,
+  street VARCHAR(50) NOT NULL,
+  zipcode VARCHAR(10) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  telephone VARCHAR(50),
+  email VARCHAR(50),
+  birthday DATE,
+  login VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(10) NOT NULL,
+  teamid INT REFERENCES team(teamid)
+);
+
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer');
+
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid") VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1);
+
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'player', 'aharrer');
+
+CREATE TABLE parenthood(
+  parenthoodid SERIAL PRIMARY KEY,
+  parentid INT REFERENCES person(personid),
+  childid INT REFERENCES person(personid)
+);
+
+INSERT INTO parenthood ("parentid", "childid") VALUES (1, 2);
+INSERT INTO parenthood ("parentid", "childid") VALUES (3, 2);
+
 # --- !Downs
+
+DROP TABLE parent;
 
 DROP TABLE person;
 

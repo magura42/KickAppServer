@@ -13,18 +13,13 @@ import play.db.NamedDatabase
 import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
 import slick.lifted.{TableQuery, Tag}
-import play.api.libs.json.Json
 
 import scala.concurrent.Future
 
 object Role extends Enumeration {
   type Role = Value
-  val player = Value("player")
-  val coach = Value("coach")
-  val parent = Value("parent")
+  val player,coach,parent = Value
 }
-
-
 
 class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
@@ -50,17 +45,15 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
   def login = column[String]("login")
   def password = column[String]("password")
   def role = column[Role]("role")
+  def teamid = column[Option[Int]]("teamid")
   def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
-    birthday, login, password, role) <> (Person.tupled, Person.unapply _)
+    birthday, login, password, role, teamid) <> (Person.tupled, Person.unapply _)
 }
 
 @Singleton()
 class PersonDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val persons = TableQuery[PersonTable]
-
-
-
 
   def all(): Future[Seq[Person]] = db.run(persons.result)
 
