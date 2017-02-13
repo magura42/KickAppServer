@@ -40,12 +40,13 @@ CREATE TABLE person(
   login VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   role VARCHAR(10) NOT NULL,
-  teamid INT REFERENCES team(teamid)
+  teamid INT REFERENCES team(teamid),
+  passnumber INT
 );
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer');
 
-INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid") VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1);
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber") VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1, 3567);
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password") VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'player', 'aharrer');
 
@@ -60,7 +61,7 @@ INSERT INTO parenthood ("parentid", "childid") VALUES (3, 2);
 
 # --- !Downs
 
-DROP TABLE parent;
+DROP TABLE parenthood;
 
 DROP TABLE person;
 

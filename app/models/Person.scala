@@ -10,7 +10,7 @@ object Person {
 
   case class Person(personid: Int, firstname: String, lastname: String, street: String, zipcode: String, city: String,
                     telephone: Option[String], email: Option[String], birthday: Option[Date],
-                    login: String, password: String, role: Role, teamid: Option[Int])
+                    login: String, password: String, role: Role, teamid: Option[Int], passnumber: Option[Int])
 
   implicit val roleFormat = new Format[Role] {
 

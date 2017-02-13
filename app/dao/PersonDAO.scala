@@ -46,8 +46,9 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
   def password = column[String]("password")
   def role = column[Role]("role")
   def teamid = column[Option[Int]]("teamid")
+  def passnumber = column[Option[Int]]("passnumber")
   def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
-    birthday, login, password, role, teamid) <> (Person.tupled, Person.unapply _)
+    birthday, login, password, role, teamid, passnumber) <> (Person.tupled, Person.unapply _)
 }
 
 @Singleton()
