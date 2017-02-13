@@ -47,8 +47,9 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
   def role = column[Role]("role")
   def teamid = column[Option[Int]]("teamid")
   def passnumber = column[Option[Int]]("passnumber")
+  def coached = column[Option[Int]]("coached")
   def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
-    birthday, login, password, role, teamid, passnumber) <> (Person.tupled, Person.unapply _)
+    birthday, login, password, role, teamid, passnumber, coached) <> (Person.tupled, Person.unapply _)
 }
 
 @Singleton()
@@ -70,6 +71,10 @@ class PersonDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvid
   def updatePerson(personId: Int, person: Person): Future[Int] = {
     val personToUpdate: Person = person.copy(personId)
     db.run(persons.filter(_.personid === personId).update(personToUpdate))
+  }
+
+  def getCoaches(teamId: Int): Future[Seq[Person]] = {
+    db.run(persons.filter(_.coached === teamId).result)
   }
 
 }

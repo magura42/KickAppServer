@@ -15,7 +15,7 @@ GET           /team/:teamId                    @controllers.TeamController.getTe
 PUT           /team/:teamId                    @controllers.TeamController.updateTeam(teamId: Int)
 POST          /team                            @controllers.TeamController.createTeam
 DELETE        /team/:teamId                    @controllers.TeamController.deleteTeam(teamId: Int)
-
+GET           /team/:teamId/coaches            @controllers.PersonController.getCoaches(teamId: Int)
 
 # person
 GET           /person                          @controllers.PersonController.listPersons
@@ -32,3 +32,10 @@ GET           /parenthood/:parenthoodId        @controllers.ParenthoodController
 PUT           /parenthood/:parenthoodId        @controllers.ParenthoodController.updateParenthood(parenthoodId: Int)
 POST          /parenthood                      @controllers.ParenthoodController.createParenthood
 DELETE        /parenthood/:parenthoodId        @controllers.ParenthoodController.deleteParenthood(parenthoodId: Int)
+
+# exercise
+GET           /exercise                        @controllers.ExerciseController.listExercises
+GET           /exercise/:exerciseId            @controllers.ExerciseController.getExercise(exerciseId: Int)
+PUT           /exercise/:exerciseId            @controllers.ExerciseController.updateExercise(exerciseId: Int)
+POST          /exercise                        @controllers.ExerciseController.createExercise
+DELETE        /exercise/:exerciseId            @controllers.ExerciseController.deleteExercise(exerciseId: Int)
