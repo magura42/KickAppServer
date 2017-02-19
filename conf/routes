@@ -39,3 +39,10 @@ GET           /exercise/:exerciseId            @controllers.ExerciseController.g
 PUT           /exercise/:exerciseId            @controllers.ExerciseController.updateExercise(exerciseId: Int)
 POST          /exercise                        @controllers.ExerciseController.createExercise
 DELETE        /exercise/:exerciseId            @controllers.ExerciseController.deleteExercise(exerciseId: Int)
+
+# training
+GET           /training                        @controllers.TrainingController.listTraining
+GET           /training/:trainingId            @controllers.TrainingController.getTraining(trainingId: Int)
+PUT           /training/:trainingId            @controllers.TrainingController.updateTraining(trainingId: Int)
+POST          /training                        @controllers.TrainingController.createTraining
+DELETE        /training/:trainingId            @controllers.TrainingController.deleteTraining(trainingId: Int)

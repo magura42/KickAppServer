@@ -82,6 +82,21 @@ INSERT INTO exercise ("name", "setup", "exercisetype", "execution", "variants") 
                                                                                        'Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).',
                                                                                        'Steigern mit mehreren Bällen.');
 
+CREATE TABLE training (
+  trainingid SERIAL PRIMARY KEY,
+  street     VARCHAR(50)  NOT NULL,
+  zipcode    VARCHAR(10)  NOT NULL,
+  city       VARCHAR(50)  NOT NULL,
+  date  DATE NOT NULL ,
+  begintime TIME NOT NULL,
+  endtime TIME NOT NULL,
+  gettogethertime TIME NOT NULL
+);
+
+
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime") VALUES('Bienenheimstr. 5', '81249', 'München',
+                                                                                                 '2017-04-04', '18:00:00', '19:30:00',
+                                                                                                 '17:45:00');
 # --- !Downs
 
 DROP TABLE parenthood;
@@ -93,3 +108,5 @@ DROP TABLE team;
 DROP TABLE club;
 
 DROP TABLE exercise;
+
+DROP TABLE training;
