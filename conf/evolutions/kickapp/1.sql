@@ -97,6 +97,15 @@ CREATE TABLE training (
 INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime") VALUES('Bienenheimstr. 5', '81249', 'München',
                                                                                                  '2017-04-04', '18:00:00', '19:30:00',
                                                                                                  '17:45:00');
+
+CREATE TABLE trainingelement (
+  trainingelementid SERIAL PRIMARY KEY,
+  trainingid     INT REFERENCES training (trainingid),
+  exerciseid      INT REFERENCES exercise (exerciseid)
+);
+
+INSERT INTO trainingelement ("trainingid", "exerciseid") VALUES(1,1);
+
 # --- !Downs
 
 DROP TABLE parenthood;
@@ -106,6 +115,8 @@ DROP TABLE person;
 DROP TABLE team;
 
 DROP TABLE club;
+
+DROP TABLE trainingelement;
 
 DROP TABLE exercise;
 
