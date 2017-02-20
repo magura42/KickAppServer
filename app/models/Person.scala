@@ -1,6 +1,7 @@
 package models
 
-import java.util.Date
+import java.sql.Date
+import java.text.SimpleDateFormat
 
 import dao.Role
 import dao.Role.Role
@@ -12,6 +13,14 @@ object Person {
                     telephone: Option[String], email: Option[String], birthday: Option[Date],
                     login: String, password: String, role: Role, teamid: Option[Int], passnumber: Option[Int],
                     coached: Option[Int])
+
+  implicit object dateFormat extends Format[Date] {
+    def reads(json: JsValue) = {
+      val str = json.as[String]
+      JsSuccess(Date.valueOf(str))
+    }
+    def writes(ts: Date) = JsString(ts.toString)
+  }
 
   implicit val roleFormat = new Format[Role] {
 

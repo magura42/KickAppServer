@@ -49,9 +49,9 @@ CREATE TABLE person (
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "coached")
 VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer', 1);
 
-INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber")
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber", "birthday")
 VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1,
-                  3567);
+                  3567, '2008-12-22');
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password")
 VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'player', 'aharrer');

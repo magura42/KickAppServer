@@ -2,7 +2,7 @@ package models
 
 import java.sql.Time
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.sql.Date
 
 import play.api.libs.json._
 
@@ -12,12 +12,20 @@ object Training {
                       endtime: Time, gettogethertime: Time)
 
   implicit object timeFormat extends Format[Time] {
-    val format = new SimpleDateFormat("HH:mm:ss")
     def reads(json: JsValue) = {
       val str = json.as[String]
       JsSuccess(Time.valueOf(str))
     }
     def writes(ts: Time) = JsString(ts.toString)
+  }
+
+  implicit object dateFormat extends Format[Date] {
+    val format = new SimpleDateFormat("dd.MM.yyyy")
+    def reads(json: JsValue) = {
+      val str = json.as[String]
+      JsSuccess(Date.valueOf(str))
+    }
+    def writes(ts: Date) = JsString(ts.toString)
   }
 
   implicit val userWrites = Json.writes[Training]

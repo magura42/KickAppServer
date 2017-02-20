@@ -1,7 +1,6 @@
 package dao
 
-import java.sql.{Time, Timestamp}
-import java.util.Date
+import java.sql.{Date, Time, Timestamp}
 import javax.inject.Inject
 
 import com.google.inject.Singleton
@@ -16,16 +15,6 @@ import scala.concurrent.Future
 
 
 class TrainingTable(tag: Tag) extends Table[Training](tag, "training") {
-
-  implicit val dateMapper = MappedColumnType.base[Date, Timestamp] (
-    d => new Timestamp (d.getTime),
-    identity
-  )
-
-//  implicit val timeMapper = MappedColumnType.base[Time, Timestamp] (
-//    d => new Timestamp (d.getTime),
-//    identity
-//  )
 
   def trainingid = column[Int]("trainingid", O.PrimaryKey, O.AutoInc)
   def street = column[String]("street")

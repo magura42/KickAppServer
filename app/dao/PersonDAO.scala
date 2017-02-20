@@ -2,7 +2,7 @@ package dao
 
 
 import java.sql.Timestamp
-import java.util.Date
+import java.sql.Date
 import javax.inject.Inject
 
 import com.google.inject.Singleton
@@ -26,11 +26,6 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
   implicit val roleMapper = MappedColumnType.base[Role.Value, String](
     e => e.toString,
     s => Role.withName(s)
-  )
-
-  implicit val dateMapper = MappedColumnType.base[Date, Timestamp] (
-    d => new Timestamp (d.getTime),
-    identity
   )
 
   def personid = column[Int]("personid", O.PrimaryKey, O.AutoInc)
