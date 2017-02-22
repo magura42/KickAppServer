@@ -1,7 +1,6 @@
 package models
 
 import java.sql.Date
-import java.text.SimpleDateFormat
 
 import dao.Role
 import dao.Role.Role

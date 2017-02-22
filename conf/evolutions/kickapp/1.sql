@@ -1,5 +1,7 @@
 # --- !Ups
 
+CREATE TYPE role AS ENUM ('player', 'coach', 'parent');
+CREATE TYPE personstatus AS ENUm ('active', 'inactive');
 
 CREATE TABLE club (
   clubid  SERIAL PRIMARY KEY,
@@ -40,7 +42,7 @@ CREATE TABLE person (
   birthday   DATE,
   login      VARCHAR(255) NOT NULL,
   password   VARCHAR(255) NOT NULL,
-  role       VARCHAR(10)  NOT NULL,
+  role       role  NOT NULL,
   teamid     INT REFERENCES team (teamid),
   passnumber INT,
   coached    INT REFERENCES team (teamid)
@@ -54,7 +56,7 @@ VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'Münc
                   3567, '2008-12-22');
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password")
-VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'player', 'aharrer');
+VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'parent', 'aharrer');
 
 CREATE TABLE parenthood (
   parenthoodid SERIAL PRIMARY KEY,
@@ -77,36 +79,51 @@ CREATE TABLE exercise (
 );
 
 INSERT INTO exercise ("name", "setup", "exercisetype", "execution", "variants") VALUES ('Übergabe Kreis',
-                                                                                       '6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball',
-                                                                                       'warmup',
-                                                                                       'Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).',
-                                                                                       'Steigern mit mehreren Bällen.');
+                                                                                        '6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball',
+                                                                                        'warmup',
+                                                                                        'Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).',
+                                                                                        'Steigern mit mehreren Bällen.');
 
 CREATE TABLE training (
-  trainingid SERIAL PRIMARY KEY,
-  street     VARCHAR(50)  NOT NULL,
-  zipcode    VARCHAR(10)  NOT NULL,
-  city       VARCHAR(50)  NOT NULL,
-  date  DATE NOT NULL ,
-  begintime TIME NOT NULL,
-  endtime TIME NOT NULL,
-  gettogethertime TIME NOT NULL
+  trainingid      SERIAL PRIMARY KEY,
+  street          VARCHAR(50) NOT NULL,
+  zipcode         VARCHAR(10) NOT NULL,
+  city            VARCHAR(50) NOT NULL,
+  date            DATE        NOT NULL,
+  begintime       TIME        NOT NULL,
+  endtime         TIME        NOT NULL,
+  gettogethertime TIME        NOT NULL
 );
 
 
-INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime") VALUES('Bienenheimstr. 5', '81249', 'München',
-                                                                                                 '2017-04-04', '18:00:00', '19:30:00',
-                                                                                                 '17:45:00');
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+VALUES ('Bienenheimstr. 5', '81249', 'München',
+        '2017-04-04', '18:00:00', '19:30:00',
+        '17:45:00');
 
 CREATE TABLE trainingelement (
   trainingelementid SERIAL PRIMARY KEY,
-  trainingid     INT REFERENCES training (trainingid),
-  exerciseid      INT REFERENCES exercise (exerciseid)
+  trainingid        INT REFERENCES training (trainingid),
+  exerciseid        INT REFERENCES exercise (exerciseid)
 );
 
-INSERT INTO trainingelement ("trainingid", "exerciseid") VALUES(1,1);
+INSERT INTO trainingelement ("trainingid", "exerciseid") VALUES (1, 1);
+
+CREATE TABLE trainingparticipant (
+  trainingparticipantid SERIAL PRIMARY KEY,
+  participantid         INT REFERENCES person (personid),
+  trainingid            INT REFERENCES training (trainingid),
+  role                  VARCHAR(10) NOT NULL
+);
+
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (1, 1, 'coach');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (2, 1, 'player');
 
 # --- !Downs
+
+DROP TABLE trainingparticipant;
+
+DROP TABLE trainingelement;
 
 DROP TABLE parenthood;
 
@@ -116,8 +133,10 @@ DROP TABLE team;
 
 DROP TABLE club;
 
-DROP TABLE trainingelement;
-
 DROP TABLE exercise;
 
 DROP TABLE training;
+
+DROP TYPE role;
+
+DROP TYPE personstatus;

@@ -1,7 +1,6 @@
 package dao
 
 
-import java.sql.Timestamp
 import java.sql.Date
 import javax.inject.Inject
 
@@ -18,31 +17,48 @@ import scala.concurrent.Future
 
 object Role extends Enumeration {
   type Role = Value
-  val player,coach,parent = Value
+  val player = Value("player")
+  val coach = Value("coach")
+  val parent = Value("parent")
 }
 
 class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
-  implicit val roleMapper = MappedColumnType.base[Role.Value, String](
+  implicit val roleMapper = MappedColumnType.base[Role, String](
     e => e.toString,
     s => Role.withName(s)
   )
 
   def personid = column[Int]("personid", O.PrimaryKey, O.AutoInc)
+
   def firstname = column[String]("firstname")
+
   def lasttname = column[String]("lastname")
+
   def street = column[String]("street")
+
   def zipcode = column[String]("zipcode")
+
   def city = column[String]("city")
+
   def telephone = column[Option[String]]("telephone")
+
   def email = column[Option[String]]("email")
+
   def birthday = column[Option[Date]]("birthday")
+
   def login = column[String]("login")
+
   def password = column[String]("password")
+
   def role = column[Role]("role")
+
   def teamid = column[Option[Int]]("teamid")
+
   def passnumber = column[Option[Int]]("passnumber")
+
   def coached = column[Option[Int]]("coached")
+
   def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
     birthday, login, password, role, teamid, passnumber, coached) <> (Person.tupled, Person.unapply _)
 }
