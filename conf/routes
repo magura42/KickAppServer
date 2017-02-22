@@ -64,3 +64,10 @@ GET           /trainingparticipant/:trainingparticipantId        @controllers.Tr
 PUT           /trainingparticipant/:trainingparticipantId        @controllers.TrainingparticipantController.updateTrainingparticipant(trainingparticipantId: Int)
 POST          /trainingparticipant                               @controllers.TrainingparticipantController.createTrainingparticipant
 DELETE        /trainingparticipant/:trainingparticipantId        @controllers.TrainingparticipantController.deleteTrainingparticipant(trainingparticipantId: Int)
+
+# tournament
+GET           /tournament                                        @controllers.TournamentController.listTournament
+GET           /tournament/:tournamentId                          @controllers.TournamentController.getTournament(tournamentId: Int)
+PUT           /tournament/:tournamentId                          @controllers.TournamentController.updateTournament(tournamentId: Int)
+POST          /tournament                                        @controllers.TournamentController.createTournament
+DELETE        /tournament/:tournamentId                          @controllers.TournamentController.deleteTournament(tournamentId: Int)

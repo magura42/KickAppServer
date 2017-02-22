@@ -1,7 +1,7 @@
 # --- !Ups
 
 CREATE TYPE role AS ENUM ('player', 'coach', 'parent');
-CREATE TYPE personstatus AS ENUm ('active', 'inactive');
+CREATE TYPE personstatus AS ENUM ('active', 'inactive');
 
 CREATE TABLE club (
   clubid  SERIAL PRIMARY KEY,
@@ -42,7 +42,7 @@ CREATE TABLE person (
   birthday   DATE,
   login      VARCHAR(255) NOT NULL,
   password   VARCHAR(255) NOT NULL,
-  role       role  NOT NULL,
+  role       role         NOT NULL,
   teamid     INT REFERENCES team (teamid),
   passnumber INT,
   coached    INT REFERENCES team (teamid)
@@ -119,7 +119,29 @@ CREATE TABLE trainingparticipant (
 INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (1, 1, 'coach');
 INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (2, 1, 'player');
 
+
+CREATE TABLE tournament (
+  tournamentid    SERIAL PRIMARY KEY,
+  name            VARCHAR(50) NOT NULL,
+  street          VARCHAR(50) NOT NULL,
+  zipcode         VARCHAR(10) NOT NULL,
+  city            VARCHAR(50) NOT NULL,
+  date            DATE        NOT NULL,
+  begintime       TIME        NOT NULL,
+  endtime         TIME        NOT NULL,
+  gettogethertime TIME        NOT NULL,
+  contact         VARCHAR(50),
+  email           VARCHAR(50),
+  telefon         VARCHAR(50),
+  web             VARCHAR(50)
+);
+
+INSERT INTO tournament ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "contact")
+VALUES ('Sommerturnier TSV', 'Grünwalderstr. 15', '80000', 'München', '2017-06-12', '9:00:00', '13:00:00', '8:30:00', 'Werner Lorant');
+
 # --- !Downs
+
+DROP TABLE tournament;
 
 DROP TABLE trainingparticipant;
 
