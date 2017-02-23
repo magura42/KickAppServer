@@ -31,7 +31,7 @@ class TournamentTable(tag: Tag) extends Table[Tournament](tag, "tournament") {
 }
 
 @Singleton()
-class TournamentDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class TournamentDAO @Inject()(@NamedDatabase("${play.configuration.getProperty('db.name')}") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val tournaments = TableQuery[TournamentTable]
 
