@@ -28,7 +28,7 @@ class ClubTable(tag: Tag) extends Table[Club](tag, "club") {
 }
 
 @Singleton()
-class ClubDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class ClubDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val clubs = TableQuery[ClubTable]
 

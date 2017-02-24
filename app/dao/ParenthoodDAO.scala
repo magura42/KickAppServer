@@ -20,7 +20,7 @@ class ParenthhoodTable(tag: Tag) extends Table[Parenthood](tag, "parenthood") {
 }
 
 @Singleton()
-class ParenthoodDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class ParenthoodDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val parenthoods = TableQuery[ParenthhoodTable]
 

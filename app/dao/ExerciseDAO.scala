@@ -38,7 +38,7 @@ class ExerciseTable(tag: Tag) extends Table[Exercise](tag, "exercise") {
 }
 
 @Singleton()
-class ExerciseDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class ExerciseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val exercises = TableQuery[ExerciseTable]
 

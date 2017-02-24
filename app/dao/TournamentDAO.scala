@@ -10,7 +10,9 @@ import play.db.NamedDatabase
 import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
 import slick.lifted.TableQuery
+import play.api.Play
 
+import scala.annotation.StaticAnnotation
 import scala.concurrent.Future
 
 class TournamentTable(tag: Tag) extends Table[Tournament](tag, "tournament") {
@@ -31,7 +33,7 @@ class TournamentTable(tag: Tag) extends Table[Tournament](tag, "tournament") {
 }
 
 @Singleton()
-class TournamentDAO @Inject()(@NamedDatabase("${play.configuration.getProperty('db.name')}") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class TournamentDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val tournaments = TableQuery[TournamentTable]
 

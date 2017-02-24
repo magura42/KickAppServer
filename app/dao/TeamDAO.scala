@@ -22,7 +22,7 @@ class TeamTable(tag: Tag) extends Table[Team](tag, "team") {
   def * = (teamid, name, fromyear, toyear, foto, clubid) <> (Team.tupled, Team.unapply _)
 }
 @Singleton()
-class TeamDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class TeamDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val teams = TableQuery[TeamTable]
 

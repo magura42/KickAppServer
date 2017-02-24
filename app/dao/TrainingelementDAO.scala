@@ -21,7 +21,7 @@ class TrainingelementTable(tag: Tag) extends Table[Trainingelement](tag, "traini
 
 
 @Singleton()
-class TrainingelementDAO @Inject()(@NamedDatabase("kickapp") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class TrainingelementDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val trainingelements = TableQuery[TrainingelementTable]
 

@@ -64,7 +64,7 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 }
 
 @Singleton()
-class PersonDAO @Inject()(@NamedDatabase("dchjtbm2cri5k4") protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
   private val persons = TableQuery[PersonTable]
 
