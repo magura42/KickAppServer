@@ -60,9 +60,9 @@ logger.application=DEBUG
 
 slick.dbs.default.driver="slick.driver.PostgresDriver$"
 slick.dbs.default.db.driver="org.postgresql.Driver"
-slick.dbs.default.db.url="jdbc:postgresql://ec2-23-21-76-49.compute-1.amazonaws.com:5432/dchjtbm2cri5k4?user=cgxlgokrkmidge&password=6fb2ffd9f98aea7ddfbf8b2888a22c57dc8195af47dd8e312cdfb4c658dafb3e"
-slick.dbs.default.db.user="cgxlgokrkmidge"
-slick.dbs.default.db.password="6fb2ffd9f98aea7ddfbf8b2888a22c57dc8195af47dd8e312cdfb4c658dafb3e"
+slick.dbs.default.db.url="jdbc:postgresql://ec2-54-163-234-20.compute-1.amazonaws.com:5432/dclgutq1p33hc6?user=ewlprfsalryzew&password=a1a2da01a2867c7243aa28518b34338f28f22701a5848b9f0446a429be3424b5"
+slick.dbs.default.db.user="ewlprfsalryzew"
+slick.dbs.default.db.password="a1a2da01a2867c7243aa28518b34338f28f22701a5848b9f0446a429be3424b5"
 slick.dbs.default.db.connectionTestQuery="SELECT 1"
 
 play.evolutions.db.default.enabled=true
