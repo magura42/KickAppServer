@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# session
+GET           /logout                                            @controllers.LoginSessionController.logout
+POST          /login                                             @controllers.LoginSessionController.login
+
 # club
 GET           /club                                              @controllers.ClubController.listClubs
 GET           /club/:clubId                                      @controllers.ClubController.getClub(clubId: Int)

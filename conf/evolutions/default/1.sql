@@ -43,20 +43,19 @@ CREATE TABLE person (
   login      VARCHAR(255) NOT NULL,
   password   VARCHAR(255) NOT NULL,
   role       role         NOT NULL,
-  teamid     INT REFERENCES team (teamid),
-  passnumber INT,
-  coached    INT REFERENCES team (teamid)
+  teamid     INT REFERENCES team (teamid) NOT NULL,
+  passnumber INT
 );
 
-INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "coached")
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid")
 VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer', 1);
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber", "birthday")
 VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1,
                   3567, '2008-12-22');
 
-INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password")
-VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'parent', 'aharrer');
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid")
+VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'parent', 'aharrer', 1);
 
 CREATE TABLE parenthood (
   parenthoodid SERIAL PRIMARY KEY,
@@ -94,7 +93,6 @@ CREATE TABLE training (
   endtime         TIME        NOT NULL,
   gettogethertime TIME        NOT NULL
 );
-
 
 INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
 VALUES ('Bienenheimstr. 5', '81249', 'München',

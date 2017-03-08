@@ -40,7 +40,6 @@ class PersonController @Inject()(personDao: PersonDAO) extends Controller {
     }
   }
 
-
   def createPerson = Action.async(parse.json[Person]) { implicit request =>
     val person: Person = request.body
     val personId: Future[Int] = personDao.createPerson(person)

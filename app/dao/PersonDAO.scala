@@ -8,7 +8,6 @@ import com.google.inject.Singleton
 import dao.Role.Role
 import models.Person.Person
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import play.db.NamedDatabase
 import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
 import slick.lifted.{TableQuery, Tag}
@@ -53,18 +52,21 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
   def role = column[Role]("role")
 
-  def teamid = column[Option[Int]]("teamid")
+  def teamid = column[Int]("teamid")
 
   def passnumber = column[Option[Int]]("passnumber")
 
-  def coached = column[Option[Int]]("coached")
-
   def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
-    birthday, login, password, role, teamid, passnumber, coached) <> (Person.tupled, Person.unapply _)
+    birthday, login, password, role, teamid, passnumber) <> (Person.tupled, Person.unapply _)
 }
 
 @Singleton()
 class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+
+  implicit val roleMapper = MappedColumnType.base[Role, String](
+    e => e.toString,
+    s => Role.withName(s)
+  )
 
   private val persons = TableQuery[PersonTable]
 
@@ -85,7 +87,9 @@ class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
   }
 
   def getCoaches(teamId: Int): Future[Seq[Person]] = {
-    db.run(persons.filter(_.coached === teamId).result)
+    db.run(persons.filter(t => {
+      t.teamid === teamId && t.role == Role.coach
+    }).result)
   }
 
 }

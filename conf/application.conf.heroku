@@ -69,3 +69,16 @@ play.evolutions.db.default.enabled=true
 play.evolutions.db.default.autocommit=true
 
 play.crypto.secret="p1X7km[2Hb[xIF:hL^kyl8V4Kn?PuQpHmi=>SF5boaocl>Bt?/YfTywgUpV2[14d"
+
+play.http.filters = "filters.MyFilters"
+
+
+play.filters.cors {
+
+  # allow all paths
+  pathPrefixes = ["*"]
+
+  # allow all origins (You can specify if you want)
+  allowedOrigins = ["http://kickwebapp.herokuapp.com"]
+  allowedHttpMethods = ["GET", "POST", "PUT", "DELETE"]
+}
