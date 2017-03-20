@@ -99,6 +99,16 @@ VALUES ('Bienenheimstr. 5', '81249', 'München',
         '2017-04-04', '18:00:00', '19:30:00',
         '17:45:00');
 
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+VALUES ('Bienenheimstr. 5', '81249', 'München',
+        '2017-04-11', '18:00:00', '19:30:00',
+        '17:45:00');
+
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+VALUES ('Bienenheimstr. 5', '81249', 'München',
+        '2017-04-18', '18:00:00', '19:30:00',
+        '17:45:00');
+
 CREATE TABLE trainingelement (
   trainingelementid SERIAL PRIMARY KEY,
   trainingid        INT REFERENCES training (trainingid),
@@ -135,28 +145,28 @@ CREATE TABLE tournament (
 );
 
 INSERT INTO tournament ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "contact")
-VALUES ('Sommerturnier TSV', 'Grünwalderstr. 15', '80000', 'München', '2017-06-12', '9:00:00', '13:00:00', '8:30:00', 'Werner Lorant');
+VALUES ('Sommerturnier TSV', 'Grünwalderstr. 15a', '80000', 'München', '2017-06-12', '9:00:00', '13:00:00', '8:30:00', 'Werner Lorant');
 
 # --- !Downs
 
-DROP TABLE tournament;
+DROP TABLE IF EXISTS tournament;
 
-DROP TABLE trainingparticipant;
+DROP TABLE IF EXISTS trainingparticipant;
 
-DROP TABLE trainingelement;
+DROP TABLE IF EXISTS trainingelement;
 
-DROP TABLE parenthood;
+DROP TABLE IF EXISTS parenthood;
 
-DROP TABLE person;
+DROP TABLE IF EXISTS person;
 
-DROP TABLE team;
+DROP TABLE IF EXISTS team;
 
-DROP TABLE club;
+DROP TABLE IF EXISTS club;
 
-DROP TABLE exercise;
+DROP TABLE IF EXISTS exercise;
 
-DROP TABLE training;
+DROP TABLE IF EXISTS training;
 
-DROP TYPE role;
+DROP TYPE IF EXISTS role;
 
-DROP TYPE personstatus;
+DROP TYPE IF EXISTS personstatus;

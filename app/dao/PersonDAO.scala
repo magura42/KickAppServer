@@ -32,7 +32,7 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
   def firstname = column[String]("firstname")
 
-  def lasttname = column[String]("lastname")
+  def lastname = column[String]("lastname")
 
   def street = column[String]("street")
 
@@ -56,7 +56,7 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
   def passnumber = column[Option[Int]]("passnumber")
 
-  def * = (personid, firstname, lasttname, street, zipcode, city, telephone, email,
+  def * = (personid, firstname, lastname, street, zipcode, city, telephone, email,
     birthday, login, password, role, teamid, passnumber) <> (Person.tupled, Person.unapply _)
 }
 
