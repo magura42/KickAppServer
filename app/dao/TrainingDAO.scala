@@ -14,6 +14,7 @@ import slick.lifted.TableQuery
 import scala.concurrent.Future
 
 
+
 class TrainingTable(tag: Tag) extends Table[Training](tag, "training") {
 
   def trainingid = column[Int]("trainingid", O.PrimaryKey, O.AutoInc)
@@ -24,7 +25,8 @@ class TrainingTable(tag: Tag) extends Table[Training](tag, "training") {
   def begintime = column[Time]("begintime")
   def endtime = column[Time]("endtime")
   def gettogethertime = column[Time]("gettogethertime")
-  def * = (trainingid, street, zipcode, city, date, begintime, endtime, gettogethertime) <> (Training.tupled, Training.unapply _)
+  def teamid = column[Int]("teamid")
+  def * = (trainingid, street, zipcode, city, date, begintime, endtime, gettogethertime, teamid) <> (Training.tupled, Training.unapply _)
 }
 
 @Singleton()
@@ -35,6 +37,8 @@ class TrainingDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
   def all(): Future[Seq[Training]] = db.run(trainings.result)
 
   def getTraining(trainingId: Int): Future[Option[Training]] = db.run(trainings.filter(_.trainingid === trainingId).result.headOption)
+
+  def getTrainings(teamId: Int): Future[Seq[Training]] = db.run(trainings.filter(_.teamid === teamId).result)
 
   def deleteTraining(trainingId: Int): Future[Int] = db.run(trainings.filter(_.trainingid === trainingId).delete)
 

@@ -5,6 +5,7 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import models.Tournament.Tournament
+import models.Training.Training
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import play.db.NamedDatabase
 import slick.driver.JdbcProfile
@@ -28,8 +29,9 @@ class TournamentTable(tag: Tag) extends Table[Tournament](tag, "tournament") {
   def email = column[Option[String]]("email")
   def telefon = column[Option[String]]("telefon")
   def web = column[Option[String]]("web")
+  def teamid = column[Int]("teamid")
   def * = (tournamentid, street, zipcode, city, date, begintime, endtime, gettogethertime, contact,
-    email, telefon, web) <> (Tournament.tupled, Tournament.unapply _)
+    email, telefon, web, teamid) <> (Tournament.tupled, Tournament.unapply _)
 }
 
 @Singleton()
@@ -40,6 +42,8 @@ class TournamentDAO @Inject() (protected val dbConfigProvider: DatabaseConfigPro
   def all(): Future[Seq[Tournament]] = db.run(tournaments.result)
 
   def getTournament(tournamentId: Int): Future[Option[Tournament]] = db.run(tournaments.filter(_.tournamentid === tournamentId).result.headOption)
+
+  def getTournaments(teamId: Int): Future[Seq[Tournament]] = db.run(tournaments.filter(_.teamid === teamId).result)
 
   def deleteTournament(tournamentId: Int): Future[Int] = db.run(tournaments.filter(_.tournamentid === tournamentId).delete)
 

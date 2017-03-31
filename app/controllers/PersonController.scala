@@ -61,7 +61,16 @@ class PersonController @Inject()(personDao: PersonDAO) extends Controller {
     val coaches: Future[Seq[Person]] = personDao.getCoaches(teamId)
     coaches map {
       p => {
-        Ok(Json.toJson(p.map("/person/" + _.personid)))
+        Ok(Json.toJson(p))
+      }
+    }
+  }
+
+  def getPlayers(teamId: Int) = Action.async { implicit request =>
+    val players: Future[Seq[Person]] = personDao.getPlayers(teamId)
+    players map {
+      p => {
+        Ok(Json.toJson(p))
       }
     }
   }

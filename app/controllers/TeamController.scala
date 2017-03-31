@@ -3,6 +3,7 @@ package controllers
 import javax.inject.Inject
 
 import dao.TeamDAO
+import models.Person.Person
 import models.Team._
 import play.api.libs.json._
 import play.api.mvc._
@@ -65,5 +66,4 @@ class TeamController @Inject()(teamDao: TeamDAO) extends Controller {
       case _ => InternalServerError
     }
   }
-
 }

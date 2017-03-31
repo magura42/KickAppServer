@@ -2,6 +2,7 @@
 
 CREATE TYPE role AS ENUM ('player', 'coach', 'parent');
 CREATE TYPE personstatus AS ENUM ('active', 'inactive');
+CREATE TYPE participantstatus AS ENUM ('yes', 'no', 'maybe');
 
 CREATE TABLE club (
   clubid  SERIAL PRIMARY KEY,
@@ -25,24 +26,25 @@ CREATE TABLE team (
   foto     BYTEA,
   fromyear INT         NOT NULL,
   toyear   INT         NOT NULL,
-  clubid   INT REFERENCES club (clubid)
+  clubid   INT REFERENCES club (clubid),
+  info     VARCHAR(2000)
 );
 
 INSERT INTO team ("name", "fromyear", "toyear", "clubid") VALUES ('F1', 2008, 2008, 1);
 
 CREATE TABLE person (
   personid   SERIAL PRIMARY KEY,
-  firstname  VARCHAR(255) NOT NULL,
-  lastname   VARCHAR(255) NOT NULL,
-  street     VARCHAR(50)  NOT NULL,
-  zipcode    VARCHAR(10)  NOT NULL,
-  city       VARCHAR(50)  NOT NULL,
+  firstname  VARCHAR(255)                 NOT NULL,
+  lastname   VARCHAR(255)                 NOT NULL,
+  street     VARCHAR(50)                  NOT NULL,
+  zipcode    VARCHAR(10)                  NOT NULL,
+  city       VARCHAR(50)                  NOT NULL,
   telephone  VARCHAR(50),
   email      VARCHAR(50),
   birthday   DATE,
-  login      VARCHAR(255) NOT NULL,
-  password   VARCHAR(255) NOT NULL,
-  role       role         NOT NULL,
+  login      VARCHAR(255)                 NOT NULL,
+  password   VARCHAR(255)                 NOT NULL,
+  role       role                         NOT NULL,
   teamid     INT REFERENCES team (teamid) NOT NULL,
   passnumber INT
 );
@@ -50,9 +52,22 @@ CREATE TABLE person (
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid")
 VALUES ('Manfred', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer', 1);
 
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "telephone")
+VALUES
+  ('Franz', 'Beckenbauer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'mharrer', 'coach', 'mharrer', 1,
+            '089/1238976234');
+
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber", "birthday")
 VALUES ('Ludwig', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1,
                   3567, '2008-12-22');
+
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber", "birthday")
+VALUES ('Manuel', 'Neuer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1,
+                  3567, '2008-12-22');
+
+INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid", "passnumber", "birthday")
+VALUES ('Mats', 'Hummels', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'lharrer', 'player', 'lharrer', 1,
+                3567, '2008-12-22');
 
 INSERT INTO person ("firstname", "lastname", "email", "street", "zipcode", "city", "login", "role", "password", "teamid")
 VALUES ('Andrea', 'Harrer', 'tne@gmx.li', 'Toni-Berger-Str. 15', '81249', 'München', 'aharrer', 'parent', 'aharrer', 1);
@@ -91,23 +106,24 @@ CREATE TABLE training (
   date            DATE        NOT NULL,
   begintime       TIME        NOT NULL,
   endtime         TIME        NOT NULL,
-  gettogethertime TIME        NOT NULL
+  gettogethertime TIME        NOT NULL,
+  teamid          INT REFERENCES team (teamid)
 );
 
-INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "teamid")
 VALUES ('Bienenheimstr. 5', '81249', 'München',
         '2017-04-04', '18:00:00', '19:30:00',
-        '17:45:00');
+        '17:45:00', 1);
 
-INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "teamid")
 VALUES ('Bienenheimstr. 5', '81249', 'München',
         '2017-04-11', '18:00:00', '19:30:00',
-        '17:45:00');
+        '17:45:00', 1);
 
-INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime")
+INSERT INTO training ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "teamid")
 VALUES ('Bienenheimstr. 5', '81249', 'München',
         '2017-04-18', '18:00:00', '19:30:00',
-        '17:45:00');
+        '17:45:00', 1);
 
 CREATE TABLE trainingelement (
   trainingelementid SERIAL PRIMARY KEY,
@@ -121,12 +137,14 @@ CREATE TABLE trainingparticipant (
   trainingparticipantid SERIAL PRIMARY KEY,
   participantid         INT REFERENCES person (personid),
   trainingid            INT REFERENCES training (trainingid),
-  role                  VARCHAR(10) NOT NULL
+  role                  VARCHAR(10)       NOT NULL,
+  participantstatus     participantstatus NOT NULL
 );
 
-INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (1, 1, 'coach');
-INSERT INTO trainingparticipant ("participantid", "trainingid", "role") VALUES (2, 1, 'player');
-
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (1, 1, 'coach', 'yes');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (2, 1, 'player', 'yes');
 
 CREATE TABLE tournament (
   tournamentid    SERIAL PRIMARY KEY,
@@ -141,13 +159,31 @@ CREATE TABLE tournament (
   contact         VARCHAR(50),
   email           VARCHAR(50),
   telefon         VARCHAR(50),
-  web             VARCHAR(50)
+  web             VARCHAR(50),
+  teamid          INT REFERENCES team (teamid)
 );
 
-INSERT INTO tournament ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "contact")
-VALUES ('Sommerturnier TSV', 'Grünwalderstr. 15a', '80000', 'München', '2017-06-12', '9:00:00', '13:00:00', '8:30:00', 'Werner Lorant');
+
+INSERT INTO tournament ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "contact", "teamid")
+VALUES ('Sommerturnier TSV', 'Grünwalderstr. 15a', '80000', 'München', '2017-06-12', '9:00:00', '13:00:00', '8:30:00',
+        'Werner Lorant', 1);
+
+CREATE TABLE tournamentparticipant (
+  tournamentparticipantid SERIAL PRIMARY KEY,
+  participantid           INT REFERENCES person (personid),
+  tournamentid            INT REFERENCES tournament (tournamentid),
+  role                    VARCHAR(10)       NOT NULL,
+  participantstatus       participantstatus NOT NULL
+);
+
+INSERT INTO tournamentparticipant ("participantid", "tournamentid", "role", "participantstatus")
+VALUES (1, 1, 'coach', 'yes');
+INSERT INTO tournamentparticipant ("participantid", "tournamentid", "role", "participantstatus")
+VALUES (2, 1, 'player', 'yes');
 
 # --- !Downs
+
+DROP TABLE IF EXISTS tournamentparticipant;
 
 DROP TABLE IF EXISTS tournament;
 
@@ -159,14 +195,16 @@ DROP TABLE IF EXISTS parenthood;
 
 DROP TABLE IF EXISTS person;
 
-DROP TABLE IF EXISTS team;
-
-DROP TABLE IF EXISTS club;
-
 DROP TABLE IF EXISTS exercise;
 
 DROP TABLE IF EXISTS training;
 
+DROP TABLE IF EXISTS team;
+
+DROP TABLE IF EXISTS club;
+
 DROP TYPE IF EXISTS role;
 
 DROP TYPE IF EXISTS personstatus;
+
+DROP TYPE IF EXISTS participantstatus;

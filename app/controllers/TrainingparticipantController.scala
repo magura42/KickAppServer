@@ -70,7 +70,7 @@ class TrainingparticipantController @Inject()(trainingparticipantDao: Trainingpa
     val players: Future[Seq[Trainingparticipant]] = trainingparticipantDao.getPlayers(trainingId)
     players map {
       p => {
-        Ok(Json.toJson(p.map("/person/" + _.participantid)))
+        Ok(Json.toJson(p.map(_.participantid)))
       }
     }
   }

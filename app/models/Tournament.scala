@@ -9,7 +9,7 @@ object Tournament {
 
   case class Tournament(tournamentid: Int, street: String, zipcode: String, city: String, date: Date, begintime: Time,
                         endtime: Time, gettogethertime: Time, contact: Option[String], email: Option[String],
-                        telefon: Option[String], web: Option[String])
+                        telefon: Option[String], web: Option[String], teamid: Int)
 
   implicit object timeFormat extends Format[Time] {
     def reads(json: JsValue) = {

@@ -88,8 +88,13 @@ class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
   def getCoaches(teamId: Int): Future[Seq[Person]] = {
     db.run(persons.filter(t => {
-      t.teamid === teamId && t.role == Role.coach
+      t.teamid === teamId && t.role === Role.coach
     }).result)
   }
 
+  def getPlayers(teamId: Int): Future[Seq[Person]] = {
+    db.run(persons.filter(t => {
+      t.teamid === teamId && t.role === Role.player
+    }).result)
+  }
 }

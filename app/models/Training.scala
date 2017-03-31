@@ -9,7 +9,7 @@ import play.api.libs.json._
 object Training {
 
   case class Training(trainingid: Int, street: String, zipcode: String, city: String, date: Date, begintime: Time,
-                      endtime: Time, gettogethertime: Time)
+                      endtime: Time, gettogethertime: Time, teamid: Int)
 
   implicit object timeFormat extends Format[Time] {
     def reads(json: JsValue) = {

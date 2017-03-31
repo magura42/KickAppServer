@@ -3,14 +3,23 @@ package controllers
 import javax.inject.Inject
 
 import dao.TournamentDAO
+import dao.TrainingparticipantDAO
+import models.Event.Event
+import models.EventMaker
+import models.Participantstatus
 import models.Tournament._
+import models.Training.Training
+import models.Trainingparticipant.Trainingparticipant
 import play.api.libs.json._
 import play.api.mvc._
 
+import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.duration.Duration
 
-class TournamentController @Inject()(tournamentDAO: TournamentDAO) extends Controller {
+class TournamentController @Inject()(tournamentDAO: TournamentDAO,
+  trainingparticipantDao: TrainingparticipantDAO) extends Controller {
 
   def listTournament = Action.async { implicit request =>
 
@@ -57,4 +66,22 @@ class TournamentController @Inject()(tournamentDAO: TournamentDAO) extends Contr
     }
   }
 
+  def getTourmaments(teamId: Int) = Action.async { implicit request =>
+
+    val tournaments: Future[Seq[Tournament]] = tournamentDAO.getTournaments(teamId)
+    tournaments map {
+      ts => {
+        var events: List[Event] = List[Event]()
+        ts.foreach(tr => {
+          var event = EventMaker(tr)
+          var participants: Seq[Trainingparticipant] = Await.result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
+          event.participationYes ++=  participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+          event.participationMaybe ++=  participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+          event.participationNo ++=  participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+          events :+= event
+        })
+        Ok(Json.toJson(events))
+      }
+    }
+  }
 }

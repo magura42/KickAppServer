@@ -6,12 +6,17 @@ import javax.inject.Inject
 import com.google.inject.Singleton
 import models.Trainingparticipant.Trainingparticipant
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
-import play.db.NamedDatabase
 import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
 import slick.lifted.{TableQuery, Tag}
 import dao.Role.Role
+import models.Participantstatus
+import models.Participantstatus._
+
 import scala.concurrent.Future
+
+
+
 
 class TraningparticipantTable(tag: Tag) extends Table[Trainingparticipant](tag, "trainingparticipant") {
 
@@ -20,11 +25,17 @@ class TraningparticipantTable(tag: Tag) extends Table[Trainingparticipant](tag, 
     s => Role.withName(s)
   )
 
+  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
+    e => e.toString,
+    s => Participantstatus.withName(s)
+  )
+
   def trainingparticipantid = column[Int]("trainingparticipantid", O.PrimaryKey, O.AutoInc)
   def participantid = column[Int]("participantid")
   def trainingid = column[Int]("trainingid")
   def role = column[Role]("role")
-  def * = (trainingparticipantid, participantid, trainingid, role) <> (Trainingparticipant.tupled, Trainingparticipant.unapply _)
+  def participantstatus = column[Participantstatus]("participantstatus")
+  def * = (trainingparticipantid, participantid, trainingid, role, participantstatus) <> (Trainingparticipant.tupled, Trainingparticipant.unapply _)
 }
 
 
@@ -36,6 +47,11 @@ class TrainingparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseC
   implicit val roleMapper = MappedColumnType.base[Role, String](
     e => e.toString,
     s => Role.withName(s)
+  )
+
+  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
+    e => e.toString,
+    s => Participantstatus.withName(s)
   )
 
   def all(): Future[Seq[Trainingparticipant]] = db.run(trainingparticipants.result)
