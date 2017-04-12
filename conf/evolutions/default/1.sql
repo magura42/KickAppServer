@@ -1,6 +1,5 @@
 # --- !Ups
 
-CREATE TYPE role AS ENUM ('player', 'coach', 'parent');
 CREATE TYPE personstatus AS ENUM ('active', 'inactive');
 CREATE TYPE participantstatus AS ENUM ('yes', 'no', 'maybe');
 
@@ -10,7 +9,7 @@ CREATE TABLE club (
   street  VARCHAR(50) NOT NULL,
   zipcode VARCHAR(10) NOT NULL,
   city    VARCHAR(50) NOT NULL,
-  logo    BYTEA,
+  logo    TEXT,
   contact VARCHAR(50),
   email   VARCHAR(50),
   telefon VARCHAR(50),
@@ -23,7 +22,7 @@ VALUES ('SV Lochhausen', 'Bienenheimstraße 7', '81249', 'München', '089/863513
 CREATE TABLE team (
   teamid   SERIAL PRIMARY KEY,
   name     VARCHAR(50) NOT NULL,
-  foto     BYTEA,
+  foto     TEXT,
   fromyear INT         NOT NULL,
   toyear   INT         NOT NULL,
   clubid   INT REFERENCES club (clubid),
@@ -42,9 +41,10 @@ CREATE TABLE person (
   telephone  VARCHAR(50),
   email      VARCHAR(50),
   birthday   DATE,
+  foto       TEXT,
   login      VARCHAR(255)                 NOT NULL,
   password   VARCHAR(255)                 NOT NULL,
-  role       role                         NOT NULL,
+  role       VARCHAR(10)                  NOT NULL,
   teamid     INT REFERENCES team (teamid) NOT NULL,
   passnumber INT
 );
@@ -202,8 +202,6 @@ DROP TABLE IF EXISTS training;
 DROP TABLE IF EXISTS team;
 
 DROP TABLE IF EXISTS club;
-
-DROP TYPE IF EXISTS role;
 
 DROP TYPE IF EXISTS personstatus;
 

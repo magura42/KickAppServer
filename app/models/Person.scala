@@ -8,7 +8,7 @@ import play.api.libs.json._
 
 object Person {
 
-  case class Person(personid: Int, firstname: String, lastname: String, street: String, zipcode: String, city: String,
+  case class Person(personid: Int, foto: Option[String], firstname: String, lastname: String, street: String, zipcode: String, city: String,
                     telephone: Option[String], email: Option[String], birthday: Option[Date],
                     login: String, password: String, role: Role, teamid: Int, passnumber: Option[Int])
 

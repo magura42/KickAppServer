@@ -7,10 +7,12 @@ import javax.inject.Inject
 import com.google.inject.Singleton
 import dao.Role.Role
 import models.Person.Person
-import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
+import play.api.db.slick.DatabaseConfigProvider
+import play.api.db.slick.HasDatabaseConfigProvider
 import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
-import slick.lifted.{TableQuery, Tag}
+import slick.lifted.TableQuery
+import slick.lifted.Tag
 
 import scala.concurrent.Future
 
@@ -29,6 +31,8 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
   )
 
   def personid = column[Int]("personid", O.PrimaryKey, O.AutoInc)
+
+  def foto = column[Option[String]]("foto")
 
   def firstname = column[String]("firstname")
 
@@ -56,12 +60,13 @@ class PersonTable(tag: Tag) extends Table[Person](tag, "person") {
 
   def passnumber = column[Option[Int]]("passnumber")
 
-  def * = (personid, firstname, lastname, street, zipcode, city, telephone, email,
+  def * = (personid, foto, firstname, lastname, street, zipcode, city, telephone, email,
     birthday, login, password, role, teamid, passnumber) <> (Person.tupled, Person.unapply _)
 }
 
 @Singleton()
-class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
+class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
+  extends HasDatabaseConfigProvider[JdbcProfile] {
 
   implicit val roleMapper = MappedColumnType.base[Role, String](
     e => e.toString,
@@ -72,7 +77,8 @@ class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
   def all(): Future[Seq[Person]] = db.run(persons.result)
 
-  def getPerson(personId: Int): Future[Option[Person]] = db.run(persons.filter(_.personid === personId).result.headOption)
+  def getPerson(personId: Int): Future[Option[Person]] = db
+    .run(persons.filter(_.personid === personId).result.headOption)
 
   def deletePerson(personId: Int): Future[Int] = db.run(persons.filter(_.personid === personId).delete)
 

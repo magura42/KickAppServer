@@ -19,7 +19,7 @@ class ClubTable(tag: Tag) extends Table[Club](tag, "club") {
   def street = column[String]("street")
   def zipcode = column[String]("zipcode")
   def city = column[String]("city")
-  def logo = column[Option[Array[Byte]]]("logo")
+  def logo = column[Option[String]]("logo")
   def contact = column[Option[String]]("contact")
   def email = column[Option[String]]("email")
   def telefon = column[Option[String]]("telefon")

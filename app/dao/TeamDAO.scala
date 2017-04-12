@@ -17,7 +17,7 @@ class TeamTable(tag: Tag) extends Table[Team](tag, "team") {
   def name = column[String]("name")
   def fromyear = column[Int]("fromyear")
   def toyear = column[Int]("toyear")
-  def foto = column[Option[Array[Byte]]]("foto")
+  def foto = column[Option[String]]("foto")
   def clubid = column[Int]("clubid")
   def info = column[Option[String]]("info")
   def * = (teamid, name, fromyear, toyear, foto, clubid, info) <> (Team.tupled, Team.unapply _)
