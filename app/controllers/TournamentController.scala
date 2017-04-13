@@ -8,7 +8,6 @@ import models.Event.Event
 import models.EventMaker
 import models.Participantstatus
 import models.Tournament._
-import models.Training.Training
 import models.Trainingparticipant.Trainingparticipant
 import play.api.libs.json._
 import play.api.mvc._
@@ -74,14 +73,37 @@ class TournamentController @Inject()(tournamentDAO: TournamentDAO,
         var events: List[Event] = List[Event]()
         ts.foreach(tr => {
           var event = EventMaker(tr)
-          var participants: Seq[Trainingparticipant] = Await.result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
-          event.participationYes ++=  participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
-          event.participationMaybe ++=  participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
-          event.participationNo ++=  participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+          var participants: Seq[Trainingparticipant] = Await
+            .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
+          event.participationYes ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+          event.participationMaybe ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+          event.participationNo ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
           events :+= event
         })
         Ok(Json.toJson(events))
       }
+    }
+  }
+
+  def getTournamentEvent(tournamentId: Int) = Action.async { implicit request =>
+    val tournament: Future[Option[Tournament]] = tournamentDAO.getTournament(tournamentId)
+    tournament map {
+      case Some(t) => {
+        var event: Event = EventMaker(t)
+        var participants: Seq[Trainingparticipant] = Await
+          .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
+        event.participationYes ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+        event.participationMaybe ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+        event.participationNo ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+        Ok(Json.toJson(event))
+      }
+      case None => NotFound
     }
   }
 }

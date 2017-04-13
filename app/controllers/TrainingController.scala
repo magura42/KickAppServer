@@ -2,8 +2,6 @@ package controllers
 
 import javax.inject.Inject
 
-import dao.Role
-import dao.Role._
 import dao.TrainingDAO
 import dao.TrainingparticipantDAO
 import models.Event.Event
@@ -21,7 +19,6 @@ import scala.concurrent.duration.Duration
 
 class TrainingController @Inject()(trainingDao: TrainingDAO, trainingparticipantDao: TrainingparticipantDAO)
   extends Controller {
-
 
 
   def listTraining = Action.async { implicit request =>
@@ -73,18 +70,42 @@ class TrainingController @Inject()(trainingDao: TrainingDAO, trainingparticipant
 
     val trainings: Future[Seq[Training]] = trainingDao.getTrainings(teamId)
     trainings map {
-        ts => {
-          var events: List[Event] = List[Event]()
-          ts.foreach(tr => {
-            var event = EventMaker(tr)
-            var participants: Seq[Trainingparticipant] = Await.result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
-            event.participationYes ++=  participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
-            event.participationMaybe ++=  participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
-            event.participationNo ++=  participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
-            events :+= event
-          })
-          Ok(Json.toJson(events))
-        }
+      ts => {
+        var events: List[Event] = List[Event]()
+        ts.foreach(tr => {
+          var event = EventMaker(tr)
+          var participants: Seq[Trainingparticipant] = Await
+            .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
+          event.participationYes ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+          event.participationMaybe ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+          event.participationNo ++=
+            participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+          events :+= event
+        })
+        Ok(Json.toJson(events))
+      }
+    }
+  }
+
+  def getTrainingEvent(trainingId: Int) = Action.async { implicit request =>
+    val training: Future[Option[Training]] = trainingDao.getTraining(trainingId)
+    training map {
+      case Some(t) => {
+        var event: Event = EventMaker(t)
+        var participants: Seq[Trainingparticipant] = Await
+          .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
+        event.participationYes ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+        event.participationMaybe ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+        event.participationNo ++=
+          participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+        Ok(Json.toJson(event))
+      }
+      case None => NotFound
     }
   }
 }
+

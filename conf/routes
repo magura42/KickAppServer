@@ -58,6 +58,7 @@ DELETE        /training/:trainingId                                  @controller
 GET           /training/:trainingId/exercises                        @controllers.TrainingelementController.getExercises(trainingId: Int)
 GET           /training/:trainingId/players                          @controllers.TrainingparticipantController.getPlayers(trainingId: Int)
 GET           /training/:trainingId/coaches                          @controllers.TrainingparticipantController.getCoaches(trainingId: Int)
+GET           /training/:trainingId/event                            @controllers.TrainingController.getTrainingEvent(trainingId: Int)
 
 # trainingelement
 GET           /trainingelement                                       @controllers.TrainingelementController.listTrainingelement
@@ -81,6 +82,7 @@ POST          /tournament                                            @controller
 DELETE        /tournament/:tournamentId                              @controllers.TournamentController.deleteTournament(tournamentId: Int)
 GET           /tournament/:tournamentId/players                      @controllers.TournamentparticipantController.getPlayers(tournamentId: Int)
 GET           /tournament/:tournamentId/coaches                      @controllers.TournamentparticipantController.getCoaches(tournamentId: Int)
+GET           /tournament/:tournamentId/event                        @controllers.TournamentController.getTournamentEvent(tournamentId: Int)
 
 # tournamentparticipant
 GET           /tournamentparticipant                                 @controllers.TournamentparticipantController.listTournamentparticipants
