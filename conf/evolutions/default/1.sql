@@ -1,7 +1,6 @@
 # --- !Ups
 
 CREATE TYPE personstatus AS ENUM ('active', 'inactive');
-CREATE TYPE participantstatus AS ENUM ('yes', 'no', 'maybe');
 
 CREATE TABLE club (
   clubid  SERIAL PRIMARY KEY,
@@ -137,14 +136,32 @@ CREATE TABLE trainingparticipant (
   trainingparticipantid SERIAL PRIMARY KEY,
   participantid         INT REFERENCES person (personid),
   trainingid            INT REFERENCES training (trainingid),
-  role                  VARCHAR(10)       NOT NULL,
-  participantstatus     participantstatus NOT NULL
+  role                  VARCHAR(10) NOT NULL,
+  participantstatus     VARCHAR(5)  NOT NULL
 );
 
 INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
 VALUES (1, 1, 'coach', 'yes');
 INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
-VALUES (2, 1, 'player', 'yes');
+VALUES (3, 1, 'player', 'yes');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (4, 1, 'player', 'yes');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (5, 1, 'player', 'no');
+
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (3, 2, 'player', 'maybe');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (4, 2, 'player', 'maybe');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (5, 2, 'player', 'no');
+
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (3, 3, 'player', 'no');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (4, 3, 'player', 'yes');
+INSERT INTO trainingparticipant ("participantid", "trainingid", "role", "participantstatus")
+VALUES (5, 3, 'player', 'yes');
 
 CREATE TABLE tournament (
   tournamentid    SERIAL PRIMARY KEY,
@@ -172,8 +189,8 @@ CREATE TABLE tournamentparticipant (
   tournamentparticipantid SERIAL PRIMARY KEY,
   participantid           INT REFERENCES person (personid),
   tournamentid            INT REFERENCES tournament (tournamentid),
-  role                    VARCHAR(10)       NOT NULL,
-  participantstatus       participantstatus NOT NULL
+  role                    VARCHAR(10) NOT NULL,
+  participantstatus       VARCHAR(5)  NOT NULL
 );
 
 INSERT INTO tournamentparticipant ("participantid", "tournamentid", "role", "participantstatus")
@@ -204,5 +221,3 @@ DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS club;
 
 DROP TYPE IF EXISTS personstatus;
-
-DROP TYPE IF EXISTS participantstatus;

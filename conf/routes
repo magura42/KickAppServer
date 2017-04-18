@@ -90,3 +90,6 @@ GET           /tournamentparticipant/:tournamentparticipantId        @controller
 PUT           /tournamentparticipant/:tournamentparticipantId        @controllers.TournamentparticipantController.updateTournamentparticipant(tournamentparticipantId: Int)
 POST          /tournamentparticipant                                 @controllers.TournamentparticipantController.createTournamentparticipant
 DELETE        /tournamentparticipant/:tournamentparticipantId        @controllers.TournamentparticipantController.deleteTournamentparticipant(tournamentparticipantId: Int)
+
+# event
+PUT           /event/:eventId                                        @controllers.EventController.updateEvent(eventId: Int)

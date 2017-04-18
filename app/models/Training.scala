@@ -31,3 +31,12 @@ object Training {
   implicit val userWrites = Json.writes[Training]
   implicit val userReads = Json.reads[Training]
 }
+
+object TrainingMaker {
+
+  import models.Event.Event
+  import models.Training.Training
+
+  def apply(event: Event) = new Training(event.eventId, event.street, event.zipcode, event.city,
+    event.date, event.begintime, event.endtime, event.gettogethertime, event.teamId)
+}

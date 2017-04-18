@@ -4,8 +4,6 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.Role.Role
-import models.Participantstatus
-import models.Participantstatus._
 import models.Tournamentparticipant.Tournamentparticipant
 import models.Trainingparticipant.Trainingparticipant
 import play.api.db.slick.DatabaseConfigProvider
@@ -24,16 +22,11 @@ class TournamentparticipantTable(tag: Tag) extends Table[Tournamentparticipant](
     s => Role.withName(s)
   )
 
-  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
-    e => e.toString,
-    s => Participantstatus.withName(s)
-  )
-
   def tournamentparticipantid = column[Int]("tournamentparticipantid", O.PrimaryKey, O.AutoInc)
   def participantid = column[Int]("participantid")
   def tournamentid = column[Int]("tournamentid")
   def role = column[Role]("role")
-  def participantstatus = column[Participantstatus]("participantstatus")
+  def participantstatus = column[String]("participantstatus")
   def * = (tournamentparticipantid, participantid, tournamentid, role, participantstatus) <> (Tournamentparticipant.tupled, Tournamentparticipant.unapply _)
 }
 @Singleton()
@@ -44,11 +37,6 @@ class TournamentparticipantDAO @Inject()(protected val dbConfigProvider: Databas
   implicit val roleMapper = MappedColumnType.base[Role, String](
     e => e.toString,
     s => Role.withName(s)
-  )
-
-  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
-    e => e.toString,
-    s => Participantstatus.withName(s)
   )
 
   def all(): Future[Seq[Tournamentparticipant]] = db.run(tournamentparticipants.result)

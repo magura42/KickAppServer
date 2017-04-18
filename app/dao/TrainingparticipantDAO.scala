@@ -10,8 +10,6 @@ import slick.driver.JdbcProfile
 import slick.driver.PostgresDriver.api._
 import slick.lifted.{TableQuery, Tag}
 import dao.Role.Role
-import models.Participantstatus
-import models.Participantstatus._
 
 import scala.concurrent.Future
 
@@ -25,16 +23,11 @@ class TraningparticipantTable(tag: Tag) extends Table[Trainingparticipant](tag, 
     s => Role.withName(s)
   )
 
-  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
-    e => e.toString,
-    s => Participantstatus.withName(s)
-  )
-
   def trainingparticipantid = column[Int]("trainingparticipantid", O.PrimaryKey, O.AutoInc)
   def participantid = column[Int]("participantid")
   def trainingid = column[Int]("trainingid")
   def role = column[Role]("role")
-  def participantstatus = column[Participantstatus]("participantstatus")
+  def participantstatus = column[String]("participantstatus")
   def * = (trainingparticipantid, participantid, trainingid, role, participantstatus) <> (Trainingparticipant.tupled, Trainingparticipant.unapply _)
 }
 
@@ -49,11 +42,6 @@ class TrainingparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseC
     s => Role.withName(s)
   )
 
-  implicit val participantstatusMapper = MappedColumnType.base[Participantstatus, String](
-    e => e.toString,
-    s => Participantstatus.withName(s)
-  )
-
   def all(): Future[Seq[Trainingparticipant]] = db.run(trainingparticipants.result)
 
   def getTrainingparticipant(trainingparticipantId: Int): Future[Option[Trainingparticipant]] =
@@ -61,6 +49,9 @@ class TrainingparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseC
 
   def deleteTrainingparticipant(trainingparticipantId: Int): Future[Int] =
     db.run(trainingparticipants.filter(_.trainingparticipantid === trainingparticipantId).delete)
+
+  def deleteTrainingparticipants(trainingId: Int): Future[Int] =
+    db.run(trainingparticipants.filter(_.trainingid === trainingId).delete)
 
   def createTrainingparticipant(trainingparticipant: Trainingparticipant): Future[Int] = {
     val query = (trainingparticipants returning trainingparticipants.map(_.trainingparticipantid)) += trainingparticipant

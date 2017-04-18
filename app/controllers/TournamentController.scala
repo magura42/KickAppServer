@@ -6,7 +6,6 @@ import dao.TournamentDAO
 import dao.TrainingparticipantDAO
 import models.Event.Event
 import models.EventMaker
-import models.Participantstatus
 import models.Tournament._
 import models.Trainingparticipant.Trainingparticipant
 import play.api.libs.json._
@@ -76,11 +75,11 @@ class TournamentController @Inject()(tournamentDAO: TournamentDAO,
           var participants: Seq[Trainingparticipant] = Await
             .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
           event.participationYes ++=
-            participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "yes").map(_.participantid)
           event.participationMaybe ++=
-            participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "maybe").map(_.participantid)
           event.participationNo ++=
-            participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "no").map(_.participantid)
           events :+= event
         })
         Ok(Json.toJson(events))
@@ -96,11 +95,11 @@ class TournamentController @Inject()(tournamentDAO: TournamentDAO,
         var participants: Seq[Trainingparticipant] = Await
           .result(trainingparticipantDao.getPlayers(event.eventId), Duration.Inf)
         event.participationYes ++=
-          participants.withFilter(x => x.participantstatus == Participantstatus.yes).map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "yes").map(_.participantid)
         event.participationMaybe ++=
-          participants.withFilter(x => x.participantstatus == Participantstatus.maybe).map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "maybe").map(_.participantid)
         event.participationNo ++=
-          participants.withFilter(x => x.participantstatus == Participantstatus.no).map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "no").map(_.participantid)
         Ok(Json.toJson(event))
       }
       case None => NotFound
