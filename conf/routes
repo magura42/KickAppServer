@@ -24,6 +24,7 @@ GET           /team/:teamId/players                                  @controller
 GET           /team/:teamId/trainings                                @controllers.TrainingController.getTrainings(teamId: Int)
 # GET           /team/:teamId/games                                @controllers.GamesController.getGames(teamId: Int)
 GET           /team/:teamId/tournaments                              @controllers.TournamentController.getTourmaments(teamId: Int)
+GET           /team/:teamId/events                                   @controllers.EventController.getTeamEvents(teamId: Int)
 
 # person
 GET           /person                                                @controllers.PersonController.listPersons
