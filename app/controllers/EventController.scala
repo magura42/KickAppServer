@@ -72,7 +72,7 @@ class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticip
       }
     })
 
-    Ok(Json.toJson(events))
+    Ok(Json.toJson(sortedEvents))
   }
 
   def updateEvent(eventId: Int) = Action.async(parse.json[Event]) { implicit request => {
