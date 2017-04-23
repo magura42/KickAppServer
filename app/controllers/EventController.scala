@@ -4,13 +4,18 @@ import java.sql.Date
 import javax.inject.Inject
 
 import dao.Role
+import dao.TeameventDAO
+import dao.TeameventparticipantDAO
 import dao.TournamentDAO
 import dao.TournamentparticipantDAO
 import dao.TrainingDAO
 import dao.TrainingparticipantDAO
 import models.Event._
 import models.EventMaker
+import models.TeameventMaker
+import models.Teameventparticipant.Teameventparticipant
 import models.Tournament.Tournament
+import models.TournamentMaker
 import models.Tournamentparticipant.Tournamentparticipant
 import models.Training.Training
 import models.TrainingMaker
@@ -24,7 +29,8 @@ import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
 class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticipantDao: TournamentparticipantDAO,
-  trainingDao: TrainingDAO, trainingparticipantDAO: TrainingparticipantDAO)
+  trainingDao: TrainingDAO, trainingparticipantDAO: TrainingparticipantDAO,
+  teameventDao: TeameventDAO, teameventparticipantDao: TeameventparticipantDAO)
   extends Controller {
 
   implicit def dateOrdering: Ordering[Date] = new Ordering[Date] {
@@ -109,7 +115,68 @@ class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticip
           case 0 => NotFound
           case _ => InternalServerError
         }
+      }
+      case "teamevent" => {
+        Await.result(teameventparticipantDao.deleteTeameventparticipants(event.eventId), Duration.Inf);
 
+        event.participationYes.foreach {
+          id => {
+            Await.result(teameventparticipantDao.createTeameventparticipant(new Teameventparticipant(0, id,
+              event.eventId, Role.player, "yes")), Duration.Inf);
+          }
+        }
+
+        event.participationNo.foreach {
+          id => {
+            Await.result(teameventparticipantDao.createTeameventparticipant(new Teameventparticipant(0, id,
+              event.eventId, Role.player, "no")), Duration.Inf);
+          }
+        }
+
+        event.participationMaybe.foreach {
+          id => {
+            Await.result(teameventparticipantDao.createTeameventparticipant(new Teameventparticipant(0, id,
+              event.eventId, Role.player, "maybe")), Duration.Inf);
+          }
+        }
+        val teamevent = TeameventMaker(event)
+        val affectedRowsCount: Future[Int] = teameventDao.updateTeamevent(teamevent.teameventid, teamevent)
+        affectedRowsCount map {
+          case 1 => Ok
+          case 0 => NotFound
+          case _ => InternalServerError
+        }
+      }
+      case "tournament" => {
+        Await.result(tournamentparticipantDao.deleteTournamentparticipants(event.eventId), Duration.Inf);
+
+        event.participationYes.foreach {
+          id => {
+            Await.result(tournamentparticipantDao.createTournamentparticipant(new Tournamentparticipant(0, id,
+              event.eventId, Role.player, "yes")), Duration.Inf);
+          }
+        }
+
+        event.participationNo.foreach {
+          id => {
+            Await.result(tournamentparticipantDao.createTournamentparticipant(new Tournamentparticipant(0, id,
+              event.eventId, Role.player, "no")), Duration.Inf);
+          }
+        }
+
+        event.participationMaybe.foreach {
+          id => {
+            Await.result(tournamentparticipantDao.createTournamentparticipant(new Tournamentparticipant(0, id,
+              event.eventId, Role.player, "maybe")), Duration.Inf);
+          }
+        }
+        val tournament: Tournament = TournamentMaker(event)
+        val affectedRowsCount: Future[Int] = tournamentDao.updateTournament(tournament.tournamentid, tournament)
+        affectedRowsCount map {
+          case 1 => Ok
+          case 0 => NotFound
+          case _ => InternalServerError
+        }
       }
     }
   }

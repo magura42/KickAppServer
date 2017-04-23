@@ -3,6 +3,7 @@ package models
 import java.sql.{Date, Time}
 import java.text.SimpleDateFormat
 
+import models.Tournament.Tournament
 import play.api.libs.json._
 
 object Tournament {
@@ -32,4 +33,13 @@ object Tournament {
 
   implicit val userWrites = Json.writes[Tournament]
   implicit val userReads = Json.reads[Tournament]
+}
+
+object TournamentMaker {
+
+  import models.Event.Event
+
+  def apply(event: Event) = new Tournament(event.eventId, event.street, event.zipcode, event.city,
+    event.date, event.begintime, event.endtime, event.gettogethertime, event.contact, event.email, event.telefon,
+    event.web, event.teamId)
 }

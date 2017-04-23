@@ -4,6 +4,7 @@ import java.sql.Date
 import java.sql.Time
 import java.text.SimpleDateFormat
 
+import models.Teamevent.Teamevent
 import play.api.libs.json._
 
 import scala.collection.mutable.ListBuffer
@@ -50,6 +51,11 @@ object EventMaker {
   def apply(training: Training) = new Event(training.trainingid, training.street, training.zipcode, training.city,
     training.date, training.begintime, training.endtime, training.gettogethertime, None, None, None, None,
     ListBuffer[Int](), ListBuffer[Int](), ListBuffer[Int](), "training", training.teamid)
+
+  def apply(teamevent: Teamevent) = new Event(teamevent.teameventid, teamevent.street, teamevent.zipcode, teamevent.city,
+    teamevent.date, teamevent.begintime, teamevent.endtime, teamevent.gettogethertime, None, None, None, None,
+    ListBuffer[Int](), ListBuffer[Int](), ListBuffer[Int](), "teamevent", teamevent.teamid)
+
 
   def apply(tournament: Tournament) = new Event(tournament.tournamentid, tournament.street, tournament.zipcode,
     tournament.city,

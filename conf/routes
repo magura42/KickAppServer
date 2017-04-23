@@ -24,6 +24,7 @@ GET           /team/:teamId/players                                  @controller
 GET           /team/:teamId/trainings                                @controllers.TrainingController.getTrainings(teamId: Int)
 # GET           /team/:teamId/games                                @controllers.GamesController.getGames(teamId: Int)
 GET           /team/:teamId/tournaments                              @controllers.TournamentController.getTourmaments(teamId: Int)
+GET           /team/:teamId/teamevents                               @controllers.TeameventController.getTeamevents(teamId: Int)
 GET           /team/:teamId/events                                   @controllers.EventController.getTeamEvents(teamId: Int)
 
 # person
@@ -74,6 +75,21 @@ GET           /trainingparticipant/:trainingparticipantId            @controller
 PUT           /trainingparticipant/:trainingparticipantId            @controllers.TrainingparticipantController.updateTrainingparticipant(trainingparticipantId: Int)
 POST          /trainingparticipant                                   @controllers.TrainingparticipantController.createTrainingparticipant
 DELETE        /trainingparticipant/:trainingparticipantId            @controllers.TrainingparticipantController.deleteTrainingparticipant(trainingparticipantId: Int)
+
+# teamevent
+GET           /teamevent                                             @controllers.TeameventController.listTeamevents
+GET           /teamevent/:teameventId                                @controllers.TeameventController.getTeamevent(teameventId: Int)
+PUT           /teamevent/:teameventId                                @controllers.TeameventController.updateTeamevent(teameventId: Int)
+POST          /teamevent                                             @controllers.TeameventController.createTeamevent
+DELETE        /teamevent/:teameventId                                @controllers.TeameventController.deleteTeamevent(teameventId: Int)
+
+# teameventparticipant
+GET           /teameventparticipant                                  @controllers.TeameventparticipantController.listTeameventparticipants
+GET           /teameventparticipant/:teameventparticipantId          @controllers.TeameventparticipantController.getTeameventparticipant(teameventparticipantId: Int)
+PUT           /teameventparticipant/:teameventparticipantId          @controllers.TeameventparticipantController.updateTeameventparticipant(teameventparticipantId: Int)
+POST          /teameventparticipant                                  @controllers.TeameventparticipantController.createTeameventparticipant
+DELETE        /teameventparticipant/:teameventparticipantId          @controllers.TeameventparticipantController.deleteTeameventparticipant(teameventparticipantId: Int)
+
 
 # tournament
 GET           /tournament                                            @controllers.TournamentController.listTournament

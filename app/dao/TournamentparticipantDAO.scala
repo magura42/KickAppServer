@@ -29,6 +29,7 @@ class TournamentparticipantTable(tag: Tag) extends Table[Tournamentparticipant](
   def participantstatus = column[String]("participantstatus")
   def * = (tournamentparticipantid, participantid, tournamentid, role, participantstatus) <> (Tournamentparticipant.tupled, Tournamentparticipant.unapply _)
 }
+
 @Singleton()
 class TournamentparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 
@@ -57,12 +58,14 @@ class TournamentparticipantDAO @Inject()(protected val dbConfigProvider: Databas
     db.run(tournamentparticipants.filter(_.tournamentparticipantid === tournamentparticipantid).update(tournamentparticipantToUpdate))
   }
 
-  def getCoaches(tournamentparticipantid: Int): Future[Seq[Tournamentparticipant]] = {
-    db.run(tournamentparticipants.filter(t => (t.tournamentparticipantid === tournamentparticipantid && t.role === Role.coach)).result)
+  def getCoaches(tournamentid: Int): Future[Seq[Tournamentparticipant]] = {
+    db.run(tournamentparticipants.filter(t => (t.tournamentid === tournamentid && t.role === Role.coach)).result)
   }
 
-  def getPlayers(tournamentparticipantid: Int): Future[Seq[Tournamentparticipant]] = {
-    db.run(tournamentparticipants.filter(t => (t.tournamentparticipantid === tournamentparticipantid && t.role === Role.player)).result)
+  def getPlayers(tournamentid: Int): Future[Seq[Tournamentparticipant]] = {
+    db.run(tournamentparticipants.filter(t => (t.tournamentid === tournamentid && t.role === Role.player)).result)
   }
 
+  def deleteTournamentparticipants(tournamenttId: Int): Future[Int] =
+    db.run(tournamentparticipants.filter(_.tournamentid === tournamenttId).delete)
 }

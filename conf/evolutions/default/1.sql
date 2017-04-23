@@ -198,7 +198,63 @@ VALUES (1, 1, 'coach', 'yes');
 INSERT INTO tournamentparticipant ("participantid", "tournamentid", "role", "participantstatus")
 VALUES (2, 1, 'player', 'yes');
 
+
+CREATE TABLE teamevent (
+  teameventid     SERIAL PRIMARY KEY,
+  name            VARCHAR(50) NOT NULL,
+  street          VARCHAR(50) NOT NULL,
+  zipcode         VARCHAR(10) NOT NULL,
+  city            VARCHAR(50) NOT NULL,
+  date            DATE        NOT NULL,
+  begintime       TIME        NOT NULL,
+  endtime         TIME        NOT NULL,
+  gettogethertime TIME        NOT NULL,
+  teamid          INT REFERENCES team (teamid)
+);
+
+INSERT INTO teamevent ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "teamid")
+VALUES ('Abschlussfeier', 'Bienenheimstr. 15', '80000', 'München', '2017-07-22', '17:00:00', '19:00:00', '17:00:00', 1);
+
+INSERT INTO teamevent ("name", "street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "teamid")
+VALUES
+  ('Weihnachtsfeier', 'Bienenheimstr. 15', '80000', 'München', '2017-12-18', '14:00:00', '17:00:00', '14:00:00', 1);
+
+CREATE TABLE teameventparticipant (
+  teameventparticipantid SERIAL PRIMARY KEY,
+  participantid          INT REFERENCES person (personid),
+  teameventid            INT REFERENCES teamevent (teameventid),
+  role                   VARCHAR(10) NOT NULL,
+  participantstatus      VARCHAR(5)  NOT NULL
+);
+
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (1, 1, 'coach', 'yes');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (2, 1, 'coach', 'yes');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (3, 1, 'player', 'yes');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (4, 1, 'player', 'maybe');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (5, 1, 'player', 'no');
+
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (1, 2, 'coach', 'yes');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (2, 2, 'coach', 'maybe');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (3, 2, 'player', 'yes');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (4, 2, 'player', 'maybe');
+INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
+VALUES (5, 2, 'player', 'yes');
+
+
 # --- !Downs
+
+DROP TABLE IF EXISTS teameventparticipant;
+
+DROP TABLE IF EXISTS teamevent;
 
 DROP TABLE IF EXISTS tournamentparticipant;
 
