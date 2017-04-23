@@ -22,7 +22,7 @@ DELETE        /team/:teamId                                          @controller
 GET           /team/:teamId/coaches                                  @controllers.PersonController.getCoaches(teamId: Int)
 GET           /team/:teamId/players                                  @controllers.PersonController.getPlayers(teamId: Int)
 GET           /team/:teamId/trainings                                @controllers.TrainingController.getTrainings(teamId: Int)
-# GET           /team/:teamId/games                                @controllers.GamesController.getGames(teamId: Int)
+GET           /team/:teamId/matches                                  @controllers.MatchController.getMatches(teamId: Int)
 GET           /team/:teamId/tournaments                              @controllers.TournamentController.getTourmaments(teamId: Int)
 GET           /team/:teamId/teamevents                               @controllers.TeameventController.getTeamevents(teamId: Int)
 GET           /team/:teamId/events                                   @controllers.EventController.getTeamEvents(teamId: Int)
@@ -89,6 +89,20 @@ GET           /teameventparticipant/:teameventparticipantId          @controller
 PUT           /teameventparticipant/:teameventparticipantId          @controllers.TeameventparticipantController.updateTeameventparticipant(teameventparticipantId: Int)
 POST          /teameventparticipant                                  @controllers.TeameventparticipantController.createTeameventparticipant
 DELETE        /teameventparticipant/:teameventparticipantId          @controllers.TeameventparticipantController.deleteTeameventparticipant(teameventparticipantId: Int)
+
+# match
+GET           /match                                                 @controllers.MatchController.listMatches
+GET           /match/:matchId                                        @controllers.MatchController.getMatch(matchId: Int)
+PUT           /match/:matchId                                        @controllers.MatchController.updateMatch(matchId: Int)
+POST          /match                                                 @controllers.MatchController.createMatch
+DELETE        /match/:matchId                                        @controllers.MatchController.deleteMatch(matchId: Int)
+
+# matchparticipant
+GET           /matchparticipant                                      @controllers.MatchparticipantController.listMatchparticipants
+GET           /matchparticipant/:matchparticipantId                  @controllers.MatchparticipantController.getMatchparticipant(matchparticipantId: Int)
+PUT           /matchparticipant/:matchparticipantId                  @controllers.MatchparticipantController.updateTeameventparticipant(matchparticipantId: Int)
+POST          /matchparticipant                                      @controllers.MatchparticipantController.createMatchparticipant
+DELETE        /matchparticipant/:matchparticipantId                  @controllers.MatchparticipantController.deleteMatchparticipant(matchparticipantId: Int)
 
 
 # tournament

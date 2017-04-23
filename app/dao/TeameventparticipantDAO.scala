@@ -29,6 +29,7 @@ class TeameventparticipantTable(tag: Tag) extends Table[Teameventparticipant](ta
   def participantstatus = column[String]("participantstatus")
   def * = (teameventparticipantid, participantid, teameventid, role, participantstatus) <> (Teameventparticipant.tupled, Teameventparticipant.unapply _)
 }
+
 @Singleton()
 class TeameventparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends HasDatabaseConfigProvider[JdbcProfile] {
 

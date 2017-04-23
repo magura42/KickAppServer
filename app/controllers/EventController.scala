@@ -3,6 +3,8 @@ package controllers
 import java.sql.Date
 import javax.inject.Inject
 
+import dao.MatchDAO
+import dao.MatchparticipantDAO
 import dao.Role
 import dao.TeameventDAO
 import dao.TeameventparticipantDAO
@@ -12,6 +14,9 @@ import dao.TrainingDAO
 import dao.TrainingparticipantDAO
 import models.Event._
 import models.EventMaker
+import models.Match.Match
+import models.MatchMaker
+import models.Matchparticipant.Matchparticipant
 import models.TeameventMaker
 import models.Teameventparticipant.Teameventparticipant
 import models.Tournament.Tournament
@@ -30,7 +35,8 @@ import scala.concurrent.duration.Duration
 
 class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticipantDao: TournamentparticipantDAO,
   trainingDao: TrainingDAO, trainingparticipantDAO: TrainingparticipantDAO,
-  teameventDao: TeameventDAO, teameventparticipantDao: TeameventparticipantDAO)
+  teameventDao: TeameventDAO, teameventparticipantDao: TeameventparticipantDAO,
+  matchDao: MatchDAO, matchparticipantDao: MatchparticipantDAO)
   extends Controller {
 
   implicit def dateOrdering: Ordering[Date] = new Ordering[Date] {
@@ -172,6 +178,37 @@ class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticip
         }
         val tournament: Tournament = TournamentMaker(event)
         val affectedRowsCount: Future[Int] = tournamentDao.updateTournament(tournament.tournamentid, tournament)
+        affectedRowsCount map {
+          case 1 => Ok
+          case 0 => NotFound
+          case _ => InternalServerError
+        }
+      }
+      case "match" => {
+        Await.result(matchparticipantDao.deleteMatchparticipants(event.eventId), Duration.Inf);
+
+        event.participationYes.foreach {
+          id => {
+            Await.result(matchparticipantDao.createMatchparticipant(new Matchparticipant(0, id,
+              event.eventId, Role.player, "yes")), Duration.Inf);
+          }
+        }
+
+        event.participationNo.foreach {
+          id => {
+            Await.result(matchparticipantDao.createMatchparticipant(new Matchparticipant(0, id,
+              event.eventId, Role.player, "no")), Duration.Inf);
+          }
+        }
+
+        event.participationMaybe.foreach {
+          id => {
+            Await.result(matchparticipantDao.createMatchparticipant(new Matchparticipant(0, id,
+              event.eventId, Role.player, "maybe")), Duration.Inf);
+          }
+        }
+        val sMatch: Match = MatchMaker(event)
+        val affectedRowsCount: Future[Int] = matchDao.updateMatch(sMatch.matchid, sMatch)
         affectedRowsCount map {
           case 1 => Ok
           case 0 => NotFound

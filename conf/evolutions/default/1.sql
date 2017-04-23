@@ -249,8 +249,53 @@ VALUES (4, 2, 'player', 'maybe');
 INSERT INTO teameventparticipant ("participantid", "teameventid", "role", "participantstatus")
 VALUES (5, 2, 'player', 'yes');
 
+CREATE TABLE match (
+  matchid         SERIAL PRIMARY KEY,
+  street          VARCHAR(50) NOT NULL,
+  zipcode         VARCHAR(10) NOT NULL,
+  city            VARCHAR(50) NOT NULL,
+  date            DATE        NOT NULL,
+  begintime       TIME        NOT NULL,
+  endtime         TIME        NOT NULL,
+  gettogethertime TIME        NOT NULL,
+  matchtype       VARCHAR(25) NOT NULL,
+  teamid          INT REFERENCES team (teamid)
+);
+
+INSERT INTO match ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "matchtype", "teamid")
+VALUES ('Bienenheimstr. 15', '80000', 'München', '2017-05-02', '17:00:00', '19:00:00', '17:00:00', 'Freundschaft', 1);
+
+INSERT INTO match ("street", "zipcode", "city", "date", "begintime", "endtime", "gettogethertime", "matchtype", "teamid")
+VALUES ('Bienenheimstr. 17', '80000', 'München', '2017-06-12', '17:00:00', '19:00:00', '17:00:00', 'Liga', 1);
+
+
+CREATE TABLE matchparticipant (
+  matchparticipantid SERIAL PRIMARY KEY,
+  participantid      INT REFERENCES person (personid),
+  matchid            INT REFERENCES match (matchid),
+  role               VARCHAR(10) NOT NULL,
+  participantstatus  VARCHAR(5)  NOT NULL
+);
+
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (3, 1, 'player', 'yes');
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (4, 1, 'player', 'maybe');
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (5, 1, 'player', 'no');
+
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (3, 2, 'player', 'yes');
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (4, 2, 'player', 'maybe');
+INSERT INTO matchparticipant ("participantid", "matchid", "role", "participantstatus")
+VALUES (5, 2, 'player', 'yes');
 
 # --- !Downs
+
+DROP TABLE IF EXISTS matchparticipant;
+
+DROP TABLE IF EXISTS match;
 
 DROP TABLE IF EXISTS teameventparticipant;
 
