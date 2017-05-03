@@ -50,7 +50,7 @@ class MatchDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   def getMatch(matchid: Int): Future[Option[Match]] = db.run(matches.filter(_.matchid === matchid).result.headOption)
 
-  def getMatches(matchid: Int): Future[Seq[Match]] = db.run(matches.filter(_.matchid === matchid).result)
+  def getMatches(teamid: Int): Future[Seq[Match]] = db.run(matches.filter(_.teamid === teamid).result)
 
   def deleteMatch(matchid: Int): Future[Int] = db.run(matches.filter(_.matchid === matchid).delete)
 
