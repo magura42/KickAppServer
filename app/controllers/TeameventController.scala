@@ -2,10 +2,12 @@ package controllers
 
 import javax.inject.Inject
 
+import dao.PersonDAO
 import dao.TeameventDAO
 import dao.TeameventparticipantDAO
 import models.Event.Event
 import models.EventMaker
+import models.Participant.Participant
 import models.Teamevent.Teamevent
 import models.Teameventparticipant.Teameventparticipant
 import play.api.libs.json._
@@ -16,8 +18,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
-class TeameventController @Inject()(teameventDAO: TeameventDAO, teameventparticipantDAO: TeameventparticipantDAO)
-  extends Controller {
+class TeameventController @Inject()(personDao: PersonDAO, teameventDAO: TeameventDAO, teameventparticipantDAO: TeameventparticipantDAO)
+  extends CommonController(personDao) {
 
 
   def listTeamevents = Action.async { implicit request =>
@@ -76,11 +78,14 @@ class TeameventController @Inject()(teameventDAO: TeameventDAO, teameventpartici
           var participants: Seq[Teameventparticipant] = Await
             .result(teameventparticipantDAO.getPlayers(event.eventId), Duration.Inf)
           event.participationYes ++=
-            participants.withFilter(x => x.participantstatus == "yes").map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "yes")
+              .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
           event.participationMaybe ++=
-            participants.withFilter(x => x.participantstatus == "maybe").map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "maybe")
+              .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
           event.participationNo ++=
-            participants.withFilter(x => x.participantstatus == "no").map(_.participantid)
+            participants.withFilter(x => x.participantstatus == "no")
+              .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
           events :+= event
         })
         Ok(Json.toJson(events))
@@ -96,11 +101,14 @@ class TeameventController @Inject()(teameventDAO: TeameventDAO, teameventpartici
         var participants: Seq[Teameventparticipant] = Await
           .result(teameventparticipantDAO.getPlayers(event.eventId), Duration.Inf)
         event.participationYes ++=
-          participants.withFilter(x => x.participantstatus == "yes").map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "yes")
+            .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
         event.participationMaybe ++=
-          participants.withFilter(x => x.participantstatus == "maybe").map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "maybe")
+            .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
         event.participationNo ++=
-          participants.withFilter(x => x.participantstatus == "no").map(_.participantid)
+          participants.withFilter(x => x.participantstatus == "no")
+            .map(p => Participant(p.participantid, getParticipantName(p.participantid)))
         Ok(Json.toJson(event))
       }
       case None => NotFound
