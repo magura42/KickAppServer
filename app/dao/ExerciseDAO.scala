@@ -15,7 +15,7 @@ import scala.concurrent.Future
 
 object Exercisetype extends Enumeration {
   type Exercisetype = Value
-  val shot,warmup,pass,trick,duel,goalkeeper,header,hall,freeplay,feeling  = Value
+  val shot,warmup,pass,trick,duel,goalkeeper,header,indoor,freeplay,feeling  = Value
 }
 
 
@@ -32,7 +32,7 @@ class ExerciseTable(tag: Tag) extends Table[Exercise](tag, "exercise") {
   def setup = column[String]("setup")
   def execution = column[String]("execution")
   def variants = column[Option[String]]("variants")
-  def graphic = column[Option[Array[Byte]]]("graphic")
+  def graphic = column[Option[String]]("graphic")
   def note = column[Option[String]]("note")
   def * = (exerciseid, name, exercisetype, setup, execution, variants, graphic, note) <> (Exercise.tupled, Exercise.unapply _)
 }

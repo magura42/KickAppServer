@@ -1,7 +1,5 @@
 package models
 
-import java.util.Date
-
 import dao.Exercisetype
 import dao.Exercisetype.Exercisetype
 import play.api.libs.json._
@@ -9,12 +7,12 @@ import play.api.libs.json._
 object Exercise {
 
   case class Exercise(exerciseid: Int, name: String, exercisetype: Exercisetype, setup: String, execution: String,
-                      variants: Option[String], graphic: Option[Array[Byte]], note: Option[String])
+    variants: Option[String], graphic: Option[String], note: Option[String])
 
   implicit val exercisetypeFormat = new Format[Exercisetype] {
 
     def reads(js: JsValue): JsResult[Exercisetype] = {
-      js.validate[String] fold (
+      js.validate[String] fold(
         error => JsError(error),
         exercisetype => exercisetype match {
           case "warmup" => JsSuccess(Exercisetype.warmup)
@@ -24,7 +22,7 @@ object Exercise {
           case "duel" => JsSuccess(Exercisetype.duel)
           case "goalkeeper" => JsSuccess(Exercisetype.goalkeeper)
           case "header" => JsSuccess(Exercisetype.header)
-          case "hall" => JsSuccess(Exercisetype.hall)
+          case "indoor" => JsSuccess(Exercisetype.indoor)
           case "freeplay" => JsSuccess(Exercisetype.freeplay)
           case "feeling" => JsSuccess(Exercisetype.feeling)
           case _ => JsError(Nil) // Should probably contain some sort of `ValidationError`
