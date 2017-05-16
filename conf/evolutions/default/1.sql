@@ -84,7 +84,7 @@ CREATE TABLE exercise (
   exerciseid   SERIAL PRIMARY KEY,
   name         VARCHAR(100)  NOT NULL,
   exercisetype VARCHAR(25)   NOT NULL,
-  setup        VARCHAR(200)  NOT NULL,
+  setup        VARCHAR(500)  NOT NULL,
   execution    VARCHAR(2000) NOT NULL,
   variants     VARCHAR(500),
   graphic      BYTEA,
@@ -96,6 +96,12 @@ INSERT INTO exercise ("name", "setup", "exercisetype", "execution", "variants") 
                                                                                         'warmup',
                                                                                         'Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).',
                                                                                         'Steigern mit mehreren Bällen.');
+
+INSERT INTO exercise ("name", "setup", "exercisetype", "execution", "variants") VALUES ('4 gegen 2',
+                                                                                        'Begrenzte Fläche, 10m Kante. 1 Ball. 6 Spieler',
+                                                                                        'freeplay',
+                                                                                        '2 Spieler in der Mitte versuchen den Ball zu erobern (=> ein Ballkontakt). Danach Spielerwechsel.',
+                                                                                        'Varianten: 5 gegen 1, ein Ballkontakt, nur mit schwachem Fuß');
 
 CREATE TABLE training (
   trainingid      SERIAL PRIMARY KEY,
