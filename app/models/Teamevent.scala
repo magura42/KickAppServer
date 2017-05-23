@@ -4,7 +4,6 @@ import java.sql.Date
 import java.sql.Time
 import java.text.SimpleDateFormat
 
-import models.Teamevent.Teamevent
 import play.api.libs.json._
 
 object Teamevent {
@@ -39,6 +38,7 @@ object Teamevent {
 object TeameventMaker {
 
   import models.Event.Event
+  import models.Teamevent.Teamevent
 
   def apply(event: Event) = new Teamevent(event.eventId, event.street, event.zipcode, event.city,
     event.date, event.begintime, event.endtime, event.gettogethertime, event.teamId)

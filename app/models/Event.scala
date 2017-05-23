@@ -4,12 +4,13 @@ import java.sql.Date
 import java.sql.Time
 import java.text.SimpleDateFormat
 
-import models.Participant.Participant
 import play.api.libs.json._
 
 import scala.collection.mutable.ListBuffer
 
 object Event {
+
+  import models.Participant.Participant
 
   case class Event(eventId: Int, street: String, zipcode: String, city: String, date: Date, begintime: Time,
     endtime: Time, gettogethertime: Time, contact: Option[String], email: Option[String],
@@ -50,6 +51,7 @@ object EventMaker {
   import models.Teamevent.Teamevent
   import models.Tournament.Tournament
   import models.Training.Training
+  import models.Participant.Participant
 
   def apply(training: Training) = new Event(training.trainingid, training.street, training.zipcode, training.city,
     training.date, training.begintime, training.endtime, training.gettogethertime, None, None, None, None,
