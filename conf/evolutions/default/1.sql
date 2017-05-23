@@ -87,7 +87,7 @@ CREATE TABLE exercise (
   setup        VARCHAR(500)  NOT NULL,
   execution    VARCHAR(2000) NOT NULL,
   variants     VARCHAR(500),
-  graphic      BYTEA,
+  graphic      TEXT,
   note         VARCHAR(500)
 );
 

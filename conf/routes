@@ -68,6 +68,7 @@ GET           /trainingelement/:trainingelementId                    @controller
 PUT           /trainingelement/:trainingelementId                    @controllers.TrainingelementController.updateTrainingelement(trainingelementId: Int)
 POST          /trainingelement                                       @controllers.TrainingelementController.createTrainingelement
 DELETE        /trainingelement/:trainingelementId                    @controllers.TrainingelementController.deleteTrainingelement(trainingelementId: Int)
+DELETE        /trainingelement?trainingid=:trainingId                @controllers.TrainingelementController.deleteAll(trainingId: Int)
 
 # trainingparticipant
 GET           /trainingparticipant                                   @controllers.TrainingparticipantController.listTrainingparticipants
