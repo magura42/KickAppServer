@@ -79,6 +79,6 @@ play.filters.cors {
   pathPrefixes = ["*"]
 
   # allow all origins (You can specify if you want)
-  allowedOrigins = ["http://kickwebapp.herokuapp.com"]
+  allowedOrigins = ["https://kickwebapp.herokuapp.com"]
   allowedHttpMethods = ["GET", "POST", "PUT", "DELETE"]
 }
