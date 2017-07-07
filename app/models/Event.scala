@@ -48,14 +48,14 @@ object EventMaker {
 
   import models.Event.Event
   import models.Match.Match
+  import models.Participant.Participant
   import models.Teamevent.Teamevent
   import models.Tournament.Tournament
   import models.Training.Training
-  import models.Participant.Participant
 
-  def apply(training: Training) = new Event(training.trainingid, training.street, training.zipcode, training.city,
+  def apply(training: Training) = new Event(training.trainingId, training.street, training.zipcode, training.city,
     training.date, training.begintime, training.endtime, training.gettogethertime, None, None, None, None,
-    ListBuffer[Participant](), ListBuffer[Participant](), ListBuffer[Participant](), "training", None, training.teamid)
+    ListBuffer[Participant](), ListBuffer[Participant](), ListBuffer[Participant](), "training", None, training.teamId)
 
   def apply(teamevent: Teamevent) = new Event(teamevent.teameventid, teamevent.street, teamevent.zipcode,
     teamevent.city,

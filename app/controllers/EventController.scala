@@ -39,7 +39,7 @@ class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticip
   trainingDao: TrainingDAO, trainingparticipantDAO: TrainingparticipantDAO,
   teameventDao: TeameventDAO, teameventparticipantDao: TeameventparticipantDAO,
   matchDao: MatchDAO, matchparticipantDao: MatchparticipantDAO, personDao: PersonDAO)
-  extends CommonController(personDao)  {
+  extends CommonController(personDao) {
 
   implicit def dateOrdering: Ordering[Date] = new Ordering[Date] {
     def compare(x: Date, y: Date): Int = x compareTo y
@@ -126,7 +126,7 @@ class EventController @Inject()(tournamentDao: TournamentDAO, tournamentparticip
           }
         }
         val training = TrainingMaker(event)
-        val affectedRowsCount: Future[Int] = trainingDao.updateTraining(training.trainingid, training)
+        val affectedRowsCount: Future[Int] = trainingDao.updateTraining(training.trainingId, training)
         affectedRowsCount map {
           case 1 => Ok
           case 0 => NotFound

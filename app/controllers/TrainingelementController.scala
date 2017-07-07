@@ -51,8 +51,7 @@ class TrainingelementController @Inject()(trainingelementDao: TrainingelementDAO
  def deleteAll(trainingId: Int) = Action.async { implicit request =>
     val affectedRowsCount: Future[Int] = trainingelementDao.deleteAll(trainingId)
     affectedRowsCount map {
-      case x if x > 0 => Ok
-      case 0 => NotFound
+      case x if x >= 0 => Ok
       case _ => InternalServerError
     }
   }

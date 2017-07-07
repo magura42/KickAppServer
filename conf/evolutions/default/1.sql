@@ -92,7 +92,7 @@ CREATE TABLE exercise (
 );
 
 INSERT INTO exercise ("name", "setup", "exercisetype", "execution", "variants") VALUES ('Übergabe Kreis',
-                                                                                        '6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball',
+                                                                                        '6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball.',
                                                                                         'warmup',
                                                                                         'Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).',
                                                                                         'Steigern mit mehreren Bällen.');

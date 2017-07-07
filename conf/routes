@@ -63,12 +63,13 @@ GET           /training/:trainingId/coaches                          @controller
 GET           /training/:trainingId/event                            @controllers.TrainingController.getTrainingEvent(trainingId: Int)
 
 # trainingelement
+GET           /trainingelement?trainingid=:trainingid                @controllers.TrainingelementController.getExercises(trainingid: Int)
+DELETE        /trainingelement/training/:trainingid                  @controllers.TrainingelementController.deleteAll(trainingid: Int)
 GET           /trainingelement                                       @controllers.TrainingelementController.listTrainingelement
 GET           /trainingelement/:trainingelementId                    @controllers.TrainingelementController.getTrainingelement(trainingelementId: Int)
 PUT           /trainingelement/:trainingelementId                    @controllers.TrainingelementController.updateTrainingelement(trainingelementId: Int)
 POST          /trainingelement                                       @controllers.TrainingelementController.createTrainingelement
 DELETE        /trainingelement/:trainingelementId                    @controllers.TrainingelementController.deleteTrainingelement(trainingelementId: Int)
-DELETE        /trainingelement?trainingid=:trainingId                @controllers.TrainingelementController.deleteAll(trainingId: Int)
 
 # trainingparticipant
 GET           /trainingparticipant                                   @controllers.TrainingparticipantController.listTrainingparticipants
