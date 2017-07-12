@@ -18,4 +18,6 @@ libraryDependencies ++= Seq("com.typesafe.play" %% "play-slick" % "2.0.0", "com.
 
 libraryDependencies += "net.logstash.logback" % "logstash-logback-encoder" % "4.6"
 
+libraryDependencies += "com.zivver" %% "web-push" % "0.2.1"
+
 scalastyleConfig := baseDirectory.value / "project/scalastyle_config.xml"

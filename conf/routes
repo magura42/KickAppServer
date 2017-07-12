@@ -126,3 +126,8 @@ DELETE        /tournamentparticipant/:tournamentparticipantId        @controller
 
 # event
 PUT           /event/:eventId                                        @controllers.EventController.updateEvent(eventId: Int)
+
+# push notification
+GET           /pushregistration                                      @controllers.PushNotificationController.listPushRegistrations
+POST          /pushregistration                                      @controllers.PushNotificationController.addPushRegistration
+POST          /pushnotification                                      @controllers.PushNotificationController.newPushNotification
