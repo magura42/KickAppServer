@@ -124,6 +124,7 @@ CREATE TABLE teamevent (
   teamid          INT REFERENCES team (teamid)
 );
 
+
 CREATE TABLE teameventparticipant (
   teameventparticipantid SERIAL PRIMARY KEY,
   participantid          INT REFERENCES person (personid),

@@ -1,5 +1,6 @@
 package service
 
+import java.io.File
 import java.sql.{Date, Time}
 import java.time.{LocalDate, LocalTime}
 import javax.inject.{Inject, Singleton}
@@ -13,6 +14,8 @@ import models.Person.Person
 import models.Team.Team
 import models.Training.Training
 import models.Trainingparticipant.Trainingparticipant
+import org.apache.commons.codec.binary.Base64
+import org.apache.commons.io.FileUtils
 import play.api._
 
 import scala.concurrent.Await
@@ -39,7 +42,7 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
     // club
     Logger.info("Load club...")
     val club = Club(1, "SV Lochhausen", "Bienenheimstraße 7", "81249", "München",
-      None, None, None, None, Some("http://www.sv-lochhausen.de"))
+      Some(getImageData("svl.png")), None, None, None, Some("http://www.sv-lochhausen.de"))
     val clubId = Await.result(clubDao.createClub(club), Duration.Inf)
 
     // team
@@ -76,12 +79,13 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
     val exercise1 = Exercise(1, "Übergabe Kreis", Exercisetype.warmup,
       "6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball",
       "Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).",
-      Some("Steigern mit mehreren Bällen."), None, None)
+      Some("Steigern mit mehreren Bällen."), Some(getImageData("uerbergabe_kreis.png")), None)
     val exercise1Id = Await.result(exerciseDAO.createExercise(exercise1), Duration.Inf)
     val exercise2 = Exercise(2, "4 gegen 2", Exercisetype.freeplay,
       "Begrenzte Fläche, 10m Kante. 1 Ball. 6 Spieler",
       "2 Spieler in der Mitte versuchen den Ball zu erobern (=> ein Ballkontakt). Danach Spielerwechsel.",
-      Some("Varianten: 5 gegen 1, ein Ballkontakt, nur mit schwachem Fuß"), None, None)
+      Some("Varianten: 5 gegen 1, ein Ballkontakt, nur mit schwachem Fuß"),
+      Some(getImageData("4vs2.jpg")), None)
     val exercise2Id = Await.result(exerciseDAO.createExercise(exercise2), Duration.Inf)
 
     // training
@@ -131,5 +135,9 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
 
   private def getDate(year: Int, month: Int, day: Int): Date = {
     Date.valueOf(LocalDate.of(year, month, day))
+  }
+
+  private def getImageData(filename: String): String = {
+    Base64.encodeBase64String(FileUtils.readFileToByteArray(new File("./data/images/" + filename)))
   }
 }
