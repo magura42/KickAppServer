@@ -90,3 +90,7 @@ play.filters.cors {
     # The allowed HTTP headers. If null, all headers are allowed.
     allowedHttpHeaders = null
 }
+
+evolutionplugin=enabled
+
+play.modules.enabled += "models.DataServiceModule"
