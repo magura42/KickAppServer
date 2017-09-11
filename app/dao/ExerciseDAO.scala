@@ -4,6 +4,7 @@ import javax.inject.Inject
 
 import com.google.inject.Singleton
 import dao.Exercisetype.Exercisetype
+import dao.Teamtype.Teamtype
 import models.Exercise.Exercise
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
@@ -22,6 +23,13 @@ object Exercisetype extends Enumeration {
     Exercisetype.withName)
 }
 
+object Teamtype extends Enumeration {
+  type Teamtype = Value
+  val Bambini, F, E, D, C, B, A, Senior, AH = Value
+
+  implicit val teamtypeMappeer = MappedColumnType.base[Teamtype.Value, String](_.toString,
+    Teamtype.withName)
+}
 
 class ExerciseTable(tag: Tag) extends Table[Exercise](tag, "exercise") {
 
@@ -36,6 +44,8 @@ class ExerciseTable(tag: Tag) extends Table[Exercise](tag, "exercise") {
 
   def exercisetype = column[Exercisetype]("exercisetype")
 
+  def teamtype = column[Teamtype]("teamtype")
+
   def setup = column[String]("setup")
 
   def execution = column[String]("execution")
@@ -46,7 +56,7 @@ class ExerciseTable(tag: Tag) extends Table[Exercise](tag, "exercise") {
 
   def note = column[Option[String]]("note")
 
-  def * = (exerciseid, name, exercisetype, setup, execution, variants, graphic, note) <>
+  def * = (exerciseid, name, exercisetype, teamtype, setup, execution, variants, graphic, note) <>
     (Exercise.tupled, Exercise.unapply _)
 }
 

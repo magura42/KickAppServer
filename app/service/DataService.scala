@@ -76,17 +76,47 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
 
     // exercises:
     Logger.info("Load exercises...")
-    val exercise1 = Exercise(1, "Übergabe Kreis", Exercisetype.warmup,
+    val exercise1 = Exercise(1, "Übergabe Kreis", Exercisetype.warmup, Teamtype.F,
       "6-10 Spieler bilden einen Kreis und ein Spieler hat einen Ball",
       "Der Spieler läuft mit dem Ball zu einem anderen Spieler und übergibt den Ball (=> Positionswechsel).",
       Some("Steigern mit mehreren Bällen."), Some(getImageData("uerbergabe_kreis.png")), None)
     val exercise1Id = Await.result(exerciseDAO.createExercise(exercise1), Duration.Inf)
-    val exercise2 = Exercise(2, "4 gegen 2", Exercisetype.freeplay,
+
+    val exercise2 = Exercise(2, "4 gegen 2", Exercisetype.freeplay, Teamtype.F,
       "Begrenzte Fläche, 10m Kante. 1 Ball. 6 Spieler",
       "2 Spieler in der Mitte versuchen den Ball zu erobern (=> ein Ballkontakt). Danach Spielerwechsel.",
       Some("Varianten: 5 gegen 1, ein Ballkontakt, nur mit schwachem Fuß"),
       Some(getImageData("4vs2.jpg")), None)
     val exercise2Id = Await.result(exerciseDAO.createExercise(exercise2), Duration.Inf)
+
+    val exercise3 = Exercise(3, "Ritterturnier", Exercisetype.warmup, Teamtype.Bambini,
+      "Ein 20 x 15 Meter großes Feld markieren. 1 Leibchen pro Kind. Die Kinder stecken sich ein Leibchen in die Hose.",
+      "Sie versuchen jeweils, den Mitspielern die Leibchen abzujagen.",
+      Some("Die Kinder halten einen Ball in der Hand."),
+      Some(getImageData("ritterturnier.png")), None)
+    val exercise3Id = Await.result(exerciseDAO.createExercise(exercise3), Duration.Inf)
+
+    val exercise4 = Exercise(4, "Fangen/Versteinern", Exercisetype.warmup, Teamtype.Bambini,
+      "Ein 20 x 15 Meter großes Feld markieren. Ohne Ball.",
+      "Der Trainer versucht, die Kinder zu fangen. Die Gefangenen bleiben breitbeinig stehen.Sie können befreit werden, indem ein anderes Kind durch die Beine krabbelt.",
+      Some("Gefangene können durch Abklatschen befreit werden. Gefangene können sich selbst befreien, indem sie dreimal in die Höhe springen. Einige Kinder oder Eltern unterstützen den Trainer bei der Jagd."),
+      Some(getImageData("ritterturnier.png")), None)
+    val exercise4Id = Await.result(exerciseDAO.createExercise(exercise4), Duration.Inf)
+
+    val exercise5 = Exercise(5, "Trainer fangen", Exercisetype.shot, Teamtype.Bambini,
+      "Ein 20 x 15 Meter großes Feld markieren. Jeder Spieler einen Ball.",
+      "Der Trainer läuft langsam durch das Feld. Die Kinder versuchen, per Schuss aus dem Dribbling die Beine des Trainers zu treffen.",
+      Some("Zusätzlich Eltern bestimmen, die ebenfalls durch das Feld laufen. Durch die gespreizten Beine der Erwachsenen schießen."),
+      Some(getImageData("trainer_fangen.png")), None)
+    val exercise5Id = Await.result(exerciseDAO.createExercise(exercise5), Duration.Inf)
+
+    val exercise6 = Exercise(6, "Spiel mit König", Exercisetype.freeplay, Teamtype.Bambini,
+      "Ein 20 x 15 Meter großes Feld markieren. 2 Hütchentore markieren. 2 Teams einteilen. Jedes Team stellt 1 Torhüter",
+      "3 gegen 3 auf die Tore mit Torhütern.Die Ballbesitzer dürfen den Trainer jederzeit einbeziehen.Dieser darf jedoch keine Tore erzielen.",
+      Some("Der Trainer spielt je eine Halbzeit bei jedem Team. In jedem Team spielt ein Erwachsener mit. 4 gegen 4 ohne Torhüter spielen."),
+      Some(getImageData("spiel_mit_koenig.png")), None)
+    val exerciseId = Await.result(exerciseDAO.createExercise(exercise6), Duration.Inf)
+
 
     // training
     Logger.info("Load training...")

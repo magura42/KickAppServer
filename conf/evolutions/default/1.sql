@@ -49,10 +49,12 @@ CREATE TABLE parenthood (
   childid      INT REFERENCES person (personid)
 );
 
+
 CREATE TABLE exercise (
   exerciseid   SERIAL PRIMARY KEY,
   name         VARCHAR(100)  NOT NULL,
   exercisetype VARCHAR(25)   NOT NULL,
+  teamtype     VARCHAR(25)   NOT NULL,
   setup        VARCHAR(500)  NOT NULL,
   execution    VARCHAR(2000) NOT NULL,
   variants     VARCHAR(500),

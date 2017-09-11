@@ -1,12 +1,14 @@
 package models
 
-import dao.Exercisetype
+import dao.{Exercisetype, Teamtype}
 import dao.Exercisetype.Exercisetype
+import dao.Teamtype.Teamtype
 import play.api.libs.json._
 
 object Exercise {
 
-  case class Exercise(exerciseid: Int, name: String, exercisetype: Exercisetype, setup: String, execution: String,
+  case class Exercise(exerciseid: Int, name: String, exercisetype: Exercisetype, teamtype: Teamtype,
+                      setup: String, execution: String,
     variants: Option[String], graphic: Option[String], note: Option[String])
 
   implicit val exercisetypeFormat = new Format[Exercisetype] {
@@ -32,6 +34,28 @@ object Exercise {
 
     def writes(r: Exercisetype): JsValue = JsString(r.toString)
   }
+
+  implicit val teamtypeFormat = new Format[Teamtype] {
+  def reads(js: JsValue): JsResult[Teamtype] = {
+    js.validate[String] fold(
+      error => JsError(error),
+      teamtype => teamtype match {
+        case "bambini" => JsSuccess(Teamtype.Bambini)
+        case "f" => JsSuccess(Teamtype.F)
+        case "e" => JsSuccess(Teamtype.E)
+        case "d" => JsSuccess(Teamtype.D)
+        case "c" => JsSuccess(Teamtype.C)
+        case "b" => JsSuccess(Teamtype.B)
+        case "a" => JsSuccess(Teamtype.A)
+        case "senior" => JsSuccess(Teamtype.Senior)
+        case "ah" => JsSuccess(Teamtype.AH)
+        case _ => JsError(Nil) // Should probably contain some sort of `ValidationError`
+      }
+    )
+  }
+
+  def writes(r: Teamtype): JsValue = JsString(r.toString)
+}
 
   implicit val userWrites = Json.writes[Exercise]
   implicit val userReads = Json.reads[Exercise]
