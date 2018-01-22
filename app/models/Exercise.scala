@@ -40,15 +40,15 @@ object Exercise {
     js.validate[String] fold(
       error => JsError(error),
       teamtype => teamtype match {
-        case "bambini" => JsSuccess(Teamtype.Bambini)
-        case "f" => JsSuccess(Teamtype.F)
-        case "e" => JsSuccess(Teamtype.E)
-        case "d" => JsSuccess(Teamtype.D)
-        case "c" => JsSuccess(Teamtype.C)
-        case "b" => JsSuccess(Teamtype.B)
-        case "a" => JsSuccess(Teamtype.A)
-        case "senior" => JsSuccess(Teamtype.Senior)
-        case "ah" => JsSuccess(Teamtype.AH)
+        case "Bambini" => JsSuccess(Teamtype.Bambini)
+        case "F" => JsSuccess(Teamtype.F)
+        case "E" => JsSuccess(Teamtype.E)
+        case "D" => JsSuccess(Teamtype.D)
+        case "C" => JsSuccess(Teamtype.C)
+        case "B" => JsSuccess(Teamtype.B)
+        case "A" => JsSuccess(Teamtype.A)
+        case "Senior" => JsSuccess(Teamtype.Senior)
+        case "AH" => JsSuccess(Teamtype.AH)
         case _ => JsError(Nil) // Should probably contain some sort of `ValidationError`
       }
     )
