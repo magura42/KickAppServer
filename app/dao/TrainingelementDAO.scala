@@ -45,6 +45,9 @@ class TrainingelementDAO @Inject()(protected val dbConfigProvider: DatabaseConfi
     db.run(query)
   }
 
+  def deleteAll(): Future[Int] =
+    db.run(trainingelements.delete)
+
   def updateTrainingelement(trainingelementId: Int, trainingelement: Trainingelement): Future[Int] = {
     val trainingelementToUpdate: Trainingelement = trainingelement.copy(trainingelementId)
     db.run(trainingelements.filter(_.trainingelementid === trainingelementId).update(trainingelementToUpdate))

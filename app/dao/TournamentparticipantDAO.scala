@@ -45,6 +45,9 @@ class TournamentparticipantDAO @Inject()(protected val dbConfigProvider: Databas
   def getTournamentparticipant(tournamentparticipantid: Int): Future[Option[Tournamentparticipant]] =
     db.run(tournamentparticipants.filter(_.tournamentparticipantid === tournamentparticipantid).result.headOption)
 
+  def deleteAll(): Future[Int] =
+    db.run(tournamentparticipants.delete)
+
   def deleteTournamentparticipant(tournamentparticipantid: Int): Future[Int] =
     db.run(tournamentparticipants.filter(_.tournamentparticipantid === tournamentparticipantid).delete)
 

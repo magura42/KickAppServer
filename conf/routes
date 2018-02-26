@@ -131,3 +131,8 @@ PUT           /event/:eventId                                        @controller
 GET           /pushregistration                                      @controllers.PushNotificationController.listPushRegistrations
 POST          /pushregistration                                      @controllers.PushNotificationController.addPushRegistration
 POST          /pushnotification                                      @controllers.PushNotificationController.newPushNotification
+
+# helper routes to handle the demo content
+POST          /demoData                                              @controllers.InitAppController.initData
+PUT           /demoData                                              @controllers.InitAppController.reloadData
+DELETE        /demoData                                              @controllers.InitAppController.deleteData()

@@ -35,6 +35,9 @@ class ParenthoodDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProv
     db.run(query)
   }
 
+  def deleteAll(): Future[Int] =
+    db.run(parenthoods.delete)
+
   def updateParenthood(parenthoodId: Int, parenthood: Parenthood): Future[Int] = {
     val parenthoodToUpdate: Parenthood = parenthood.copy(parenthoodId)
     db.run(parenthoods.filter(_.parenthoodid === parenthoodId).update(parenthoodToUpdate))

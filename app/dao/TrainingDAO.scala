@@ -42,6 +42,9 @@ class TrainingDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
 
   def deleteTraining(trainingId: Int): Future[Int] = db.run(trainings.filter(_.trainingid === trainingId).delete)
 
+  def deleteAll(): Future[Int] =
+    db.run(trainings.delete)
+
   def createTraining(training: Training): Future[Int] = {
     val query = (trainings returning trainings.map(_.trainingid)) += training
     db.run(query)

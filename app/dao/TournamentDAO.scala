@@ -45,6 +45,9 @@ class TournamentDAO @Inject() (protected val dbConfigProvider: DatabaseConfigPro
 
   def getTournaments(teamId: Int): Future[Seq[Tournament]] = db.run(tournaments.filter(_.teamid === teamId).result)
 
+  def deleteAll(): Future[Int] =
+    db.run(tournaments.delete)
+
   def deleteTournament(tournamentId: Int): Future[Int] = db.run(tournaments.filter(_.tournamentid === tournamentId).delete)
 
   def createTournament(tournament: Tournament): Future[Int] = {

@@ -42,6 +42,9 @@ class MatchparticipantDAO @Inject()(protected val dbConfigProvider: DatabaseConf
 
   def all(): Future[Seq[Matchparticipant]] = db.run(matchparticipants.result)
 
+  def deleteAll(): Future[Int] =
+    db.run(matchparticipants.delete)
+
   def getMatchparticipant(matchparticipantid: Int): Future[Option[Matchparticipant]] =
     db.run(matchparticipants.filter(_.matchparticipantid === matchparticipantid).result.headOption)
 

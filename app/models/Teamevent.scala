@@ -8,7 +8,7 @@ import play.api.libs.json._
 
 object Teamevent {
 
-  case class Teamevent(teameventid: Int, street: String, zipcode: String, city: String, date: Date, begintime: Time,
+  case class Teamevent(teameventid: Int, name: String, street: String, zipcode: String, city: String, date: Date, begintime: Time,
     endtime: Time, gettogethertime: Time, teamid: Int)
 
   implicit object timeFormat extends Format[Time] {
@@ -40,6 +40,6 @@ object TeameventMaker {
   import models.Event.Event
   import models.Teamevent.Teamevent
 
-  def apply(event: Event) = new Teamevent(event.eventId, event.street, event.zipcode, event.city,
+  def apply(event: Event) = new Teamevent(event.eventId, "TODO", event.street, event.zipcode, event.city,
     event.date, event.begintime, event.endtime, event.gettogethertime, event.teamId)
 }

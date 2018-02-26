@@ -43,6 +43,9 @@ class ClubDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) 
     db.run(query)
   }
 
+  def deleteAll(): Future[Int] =
+    db.run(clubs.delete)
+
   def updateClub(clubId: Int, club: Club): Future[Int] = {
     val clubToUpdate: Club = club.copy(clubId)
     db.run(clubs.filter(_.clubid === clubId).update(clubToUpdate))

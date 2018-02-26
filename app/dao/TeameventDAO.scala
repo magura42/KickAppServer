@@ -18,6 +18,7 @@ import scala.concurrent.Future
 class TeameventTable(tag: Tag) extends Table[Teamevent](tag, "teamevent") {
 
   def teameventid = column[Int]("teameventid", O.PrimaryKey, O.AutoInc)
+  def name = column[String]("name")
   def street = column[String]("street")
   def zipcode = column[String]("zipcode")
   def city = column[String]("city")
@@ -26,7 +27,7 @@ class TeameventTable(tag: Tag) extends Table[Teamevent](tag, "teamevent") {
   def endtime = column[Time]("endtime")
   def gettogethertime = column[Time]("gettogethertime")
   def teamid = column[Int]("teamid")
-  def * = (teameventid, street, zipcode, city, date, begintime, endtime, gettogethertime, teamid) <> (Teamevent.tupled, Teamevent.unapply _)
+  def * = (teameventid, name, street, zipcode, city, date, begintime, endtime, gettogethertime, teamid) <> (Teamevent.tupled, Teamevent.unapply _)
 }
 
 @Singleton()
@@ -41,6 +42,9 @@ class TeameventDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
   def getTeamevents(teamId: Int): Future[Seq[Teamevent]] = db.run(teamevents.filter(_.teamid === teamId).result)
 
   def deleteTeamevent(teameventId: Int): Future[Int] = db.run(teamevents.filter(_.teameventid === teameventId).delete)
+
+  def deleteAll(): Future[Int] =
+    db.run(teamevents.delete)
 
   def createTeamevent(teamevent: Teamevent): Future[Int] = {
     val query = (teamevents returning teamevents.map(_.teameventid)) += teamevent

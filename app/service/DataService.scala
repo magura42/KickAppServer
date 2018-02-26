@@ -12,6 +12,7 @@ import models.Exercise.Exercise
 import models.Parenthood.Parenthood
 import models.Person.Person
 import models.Team.Team
+import models.Teamevent.Teamevent
 import models.Training.Training
 import models.Trainingparticipant.Trainingparticipant
 import org.apache.commons.codec.binary.Base64
@@ -25,20 +26,21 @@ import scala.concurrent.duration.Duration
 @Singleton
 class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: PersonDAO, exerciseDAO: ExerciseDAO,
                             trainingDao: TrainingDAO, trainingparticipantDAO: TrainingparticipantDAO,
-                            parenthoodDAO: ParenthoodDAO) {
+                            parenthoodDAO: ParenthoodDAO, teameventDAO: TeameventDAO) {
 
-  clubDao.all() map {
-    s => {
-      if (s.length == 0) {
-        Logger.info("Init the data...")
-        loadData()
-      } else {
-        Logger.info("Data already initialized!")
-      }
-    }
+  def cleanUpDatabase() = {
+    Logger.info("Cleanup db...")
+    trainingparticipantDAO.deleteAll()
+    teameventDAO.deleteAll()
+    parenthoodDAO.deleteAll()
+    trainingDao.deleteAll()
+    exerciseDAO.deleteAll()
+    personDao.deleteAll()
+    teamDao.deleteAll()
+    clubDao.deleteAll()
   }
 
-  private def loadData() = {
+  def loadData() = {
     // club
     Logger.info("Load club...")
     val club = Club(1, "SV Lochhausen", "Bienenheimstraße 7", "81249", "München",
@@ -67,10 +69,15 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
     val parentJRiechers = Person(5, None, "Jan", "Riechers", "Toni-Berger-Straße 15", "81249", "München",
       Some("0176/10351031"), Some("tne@gmx.li"), None, "jriechers2", "jriechers2",
       Role.player, teamId, None)
+    val playerJProbst = Person(6, None, "Jakob", "Probst", "Toni-Berger-Straße 15", "81249", "München",
+      Some("0176/10351031"), Some("tne@gmx.li"), None, "jprobst", "jprobst",
+      Role.player, teamId, None)
+
 
     val coachMHarrerId = Await.result(personDao.createPerson(coachMHarrer), Duration.Inf)
     val playerPHarrerId = Await.result(personDao.createPerson(playerPHarrer), Duration.Inf)
     val playerJRiechersId = Await.result(personDao.createPerson(playerJRiechers), Duration.Inf)
+    val playerJProbstId = Await.result(personDao.createPerson(playerJProbst), Duration.Inf)
     val parentAHarrerId = Await.result(personDao.createPerson(parentAHarrer), Duration.Inf)
     val parentJRiechersId = Await.result(personDao.createPerson(parentJRiechers), Duration.Inf)
 
@@ -117,18 +124,27 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
       Some(getImageData("spiel_mit_koenig.png")), None)
     val exerciseId = Await.result(exerciseDAO.createExercise(exercise6), Duration.Inf)
 
+  // teamevent
+    Logger.info("Load teamevent...")
+    val teamevent1 = Teamevent(1, "Sommerfest", "Bienenheimstr. 7", "81249", "München", getDate(2018, 7, 30), getTime(15,0),
+      getTime(18,0), getTime(14,55), teamId)
+    Await.result(teameventDAO.createTeamevent(teamevent1), Duration.Inf)
+    val teamevent2 = Teamevent(2, "Saisonn KickOff", "Bienenheimstr. 7", "81249", "München", getDate(2018, 8, 15), getTime(16,0),
+      getTime(17,0), getTime(15,55), teamId)
+    Await.result(teameventDAO.createTeamevent(teamevent2), Duration.Inf)
+
 
     // training
     Logger.info("Load training...")
-    val training1 = Training(1, "Bienenheimstr. 7", "81249", "München", getDate(2017, 9, 11), getTime(16,0),
+    val training1 = Training(1, "Bienenheimstr. 7", "81249", "München", getDate(2018, 9, 11), getTime(16,0),
       getTime(17,0), getTime(15,55), teamId)
     val training1Id = Await.result(trainingDao.createTraining(training1), Duration.Inf)
 
-    val training2 = Training(2, "Bienenheimstr. 7", "81249", "München", getDate(2017, 9, 18), getTime(16,0),
+    val training2 = Training(2, "Bienenheimstr. 7", "81249", "München", getDate(2018, 9, 18), getTime(16,0),
       getTime(17,0), getTime(15,55), teamId)
     val training2Id = Await.result(trainingDao.createTraining(training2), Duration.Inf)
 
-    val training3 = Training(3, "Bienenheimstr. 7", "81249", "München", getDate(2017, 9, 25), getTime(16,0),
+    val training3 = Training(3, "Bienenheimstr. 7", "81249", "München", getDate(2018, 9, 25), getTime(16,0),
       getTime(17,0), getTime(15,55), teamId)
     val training3Id = Await.result(trainingDao.createTraining(training3), Duration.Inf)
 
@@ -137,12 +153,20 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
     addParticipant(coachMHarrerId, training1Id, Role.coach)
     addParticipant(playerPHarrerId, training1Id, Role.player)
     addParticipant(playerJRiechersId, training1Id, Role.player)
+    addParticipant(playerPHarrerId, training1Id, Role.player)
+    addParticipant(playerJProbstId, training1Id, Role.player)
+
     addParticipant(coachMHarrerId, training2Id, Role.coach)
     addParticipant(playerPHarrerId, training2Id, Role.player)
     addParticipant(playerJRiechersId, training2Id, Role.player)
+    addParticipant(playerPHarrerId, training2Id, Role.player)
+    addParticipant(playerJProbstId, training2Id, Role.player)
+
     addParticipant(coachMHarrerId, training3Id, Role.coach)
     addParticipant(playerPHarrerId, training3Id, Role.player)
     addParticipant(playerJRiechersId, training3Id, Role.player)
+    addParticipant(playerPHarrerId, training3Id, Role.player)
+    addParticipant(playerJProbstId, training3Id, Role.player)
 
     // parenthood:
     Logger.info("Load parenthoods...")
@@ -168,6 +192,7 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
   }
 
   private def getImageData(filename: String): String = {
-    Base64.encodeBase64String(FileUtils.readFileToByteArray(new File("./data/images/" + filename)))
+    val file = new File("./data/images/" + filename)
+    "data:image/png;base64," + Base64.encodeBase64String(FileUtils.readFileToByteArray(file))
   }
 }

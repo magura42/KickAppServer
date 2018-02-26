@@ -78,6 +78,9 @@ class ExerciseDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvid
     db.run(query)
   }
 
+  def deleteAll(): Future[Int] =
+    db.run(exercises.delete)
+
   def updateExercise(exerciseId: Int, exercise: Exercise): Future[Int] = {
     val exerciseToUpdate: Exercise = exercise.copy(exerciseId)
     db.run(exercises.filter(_.exerciseid === exerciseId).update(exerciseToUpdate))

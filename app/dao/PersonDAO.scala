@@ -87,6 +87,9 @@ class PersonDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
     db.run(query)
   }
 
+  def deleteAll(): Future[Int] =
+    db.run(persons.delete)
+
   def updatePerson(personId: Int, person: Person): Future[Int] = {
     val personToUpdate: Person = person.copy(personId)
     db.run(persons.filter(_.personid === personId).update(personToUpdate))

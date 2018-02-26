@@ -35,6 +35,9 @@ class TeamDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
 
   def deleteTeam(teamId: Int): Future[Int] = db.run(teams.filter(_.teamid === teamId).delete)
 
+  def deleteAll(): Future[Int] =
+    db.run(teams.delete)
+
   def createTeam(team: Team): Future[Int] = {
     val query = (teams returning teams.map(_.teamid)) += team
     db.run(query)
