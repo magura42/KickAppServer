@@ -131,10 +131,12 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
       None, None)
     Await.result(exerciseDAO.createExercise(exercise7), Duration.Inf)
 
-
-
-
-
+    val exercise8 = Exercise(8, "Torschuss-Team-Spiel", Exercisetype.shot, Teamtype.F,
+      "Ein 20 x 30 Meter großes Feld markieren. Zwei Tore. In der Mitte vier farbige Hüttchen. Starthüttchen neben den Toren.",
+      "Der Trainer ruft eine Hütchenfarbe.\nDie Spieler umdribbeln das Hütchen und schießen auf das Tor neben dem eigenen Starthütchen.\nDie Spieler stellen sich am eigenen Starthütchen wieder an.",
+      Some("Die Spieler umlaufen ohne Ball das Hütchen und erhalten einen Pass vom nächsten Mitspieler.\nDer Trainer ruft 2 Hütchen auf."),
+      Some(getImageData("team_torschuss.png")), Some("Die Starthütchen in ausreichendem Abstand zum Tor aufstellen, damit die Spieler nicht von Torschüssen getroffen werden können.\nAuf eine enge Ballführung achten."))
+    Await.result(exerciseDAO.createExercise(exercise8), Duration.Inf)
 
     // teamevent
     Logger.info("Load teamevent...")
