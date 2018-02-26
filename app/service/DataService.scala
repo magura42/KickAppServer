@@ -124,7 +124,19 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
       Some(getImageData("spiel_mit_koenig.png")), None)
     val exerciseId = Await.result(exerciseDAO.createExercise(exercise6), Duration.Inf)
 
-  // teamevent
+    val exercise7 = Exercise(7, "Ball klauen", Exercisetype.freeplay, Teamtype.Bambini,
+      "Ein 20 x 15 Meter großes Feld markieren. Fänger bestimmen.",
+      "Fänger (ohne Ball) müssen versuchen, den anderen Spielern den Ball abzunehmen und aus dem Feld herauszuspielen. Gefangene Spieler bleiben im Grätschschritt stehen. Spielen ihnen die anderen Spieler einen Ball zwischen den Beinen durch, können sie sich einen Ball holen und wieder mitmachen.",
+      Some("Gefangene werden zu Fängern, der erfolgreiche Fänger erhält den Ball und wechselt auch die andere Seite."),
+      None, None)
+    Await.result(exerciseDAO.createExercise(exercise7), Duration.Inf)
+
+
+
+
+
+
+    // teamevent
     Logger.info("Load teamevent...")
     val teamevent1 = Teamevent(1, "Sommerfest", "Bienenheimstr. 7", "81249", "München", getDate(2018, 7, 30), getTime(15,0),
       getTime(18,0), getTime(14,55), teamId)
