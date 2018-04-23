@@ -6,6 +6,7 @@ import java.time.{LocalDate, LocalTime}
 import javax.inject.{Inject, Singleton}
 
 import dao.Role.Role
+import dao.Teamtype.Teamtype
 import dao._
 import models.Club.Club
 import models.Exercise.Exercise
@@ -138,6 +139,61 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
       Some(getImageData("team_torschuss.png")), Some("Die Starthütchen in ausreichendem Abstand zum Tor aufstellen, damit die Spieler nicht von Torschüssen getroffen werden können.\nAuf eine enge Ballführung achten."))
     Await.result(exerciseDAO.createExercise(exercise8), Duration.Inf)
 
+    addExercise(Exercise(9, "Ballkontroll-Dreieck", Exercisetype.pass, Teamtype.F,
+      "2 Starthütchen im Abstand von 15 Metern nebeneinander markieren\n5 Meter vor jedem Starthütchen ein weiteres Hütchen und 5 Meter mittig hinter diesen Hütchen eine Stange aufstellen\nDie Spieler mit Bällen an die Starthütchen verteilen und jeweils einen Spieler ohne Ball am Hütchen davor postieren.",
+      "Die Spieler starten gleichzeitig, umlaufen die Stange und fordern ein Zuspiel vom ersten Spieler am Starthütchen.\nDas Zuspiel nehmen die Spieler zum Starthütchen an und mit.\nDer Passgeber läuft seinem Zuspiel zum Hütchen nach.",
+      Some("Den Pass zum anderen Starthütchen an- und mitnehmen.\nDen Pass vom anderen Starthütchen fordern und zum anderen Starthütchen an- und mitnehmen.\nDen Pass vom anderen Starthütchen fordern und zum eigenen Starthütchen an- und mitnehmen."),
+      Some(getImageData("ballkontakt_dreieck.png")), Some("Die Spieler starten nach einiger Zeit selbstständig.\nAus dem Dribbling und nicht aus dem Stand zuspielen.")))
+
+    addExercise(Exercise(10, "3-Team-Turnier", Exercisetype.freeplay, Teamtype.F,
+      "Ein 40 x 20 Meter großes Spielfeld markieren\nAuf einer Grundlinie ein Tor und auf der anderen Grundlinie ein 5 Meter breites Stangentor aufstellen\n3 Teams einteilen\n2 Teams im Feld und die Spieler des dritten Teams als Torhüter im Tor und im Stangentor postieren.",
+      "Die beiden Teams im Feld spielen im 4 gegen 4, wobei ein Team auf das Tor und das andere Team auf das Stangentor angreift.\nPositions- und Aufgabenwechsel der Teams nach 5 Minuten.",
+      Some("Die Ballbesitzer greifen auf beide Tore an.\nNach jedem Treffer wechselt die Spielrichtung und das unterlegene Team tauscht mit den Torhütern Position und Aufgabe."),
+      Some(getImageData("3_team_turnier.png")), Some("Jedes Team bestimmt einen Kapitän, der die erzielten Treffer mitzählt.\nJedes Team oft genug auf beide Tore angreifen lassen.")))
+
+
+      addExercise(Exercise(11, "Pass-und Laufstrecke", Exercisetype.pass, Teamtype.F,
+        "Mit 4 Hütchen ein 20 x 20 Meter großes Feld markieren\nZwischen 2 Hütchen ein 2 Meter breites Hütchentor aufstellen\n2 Teams einteilen\nJedes Team erhält einen Ball\nDas eine Team auf die beiden Hütchen mit dem Hütchentor aufteilen, das andere an eines der anderen beiden Hütchen postieren",
+        "Der erste Spieler eines Teams umdribbelt das Hütchen vor dem Starthütchen, passt zum nächsten Spieler und läuft zum Starthütchen zurück.\nDer erste Spieler des anderen Teams dribbelt kurz an, passt durch das Hütchentor zum Spieler gegenüber und läuft seinem Pass nach.\nWelches Team spielt mehr Pässe durch das Hütchentor, bevor der Gegner einen kompletten Durchgang absolviert hat?",
+        Some("Nur mit rechts/links passen.\n2 Durchgänge spielen."),
+        Some(getImageData("pass_und_laufstrecke.png")), Some("Das jeweilige Team zählt die Pässe durch das Hütchentor laut mit.\nPositions- und Aufgabenwechsel nach jedem Durchgang.\nDie Distanz der Hütchen zueinander oder die Größe des Hütchentores variieren.")))
+
+    addExercise(Exercise(12, "Pass- und Laufkreuz", Exercisetype.pass, Teamtype.F,
+      "Mit 4 Hütchen eine 20 x 20 Meter große Raute markieren\nIn der Mitte ein zwei Meter breites Hütchentor aufstellen\n2 Teams einteilen\nDas eine Team auf zwei gegenüberliegende Hütchen aufteilen und dem zweiten Team ein weiteres Hütchen zuweisen",
+      "Der erste Spieler eines Teams umdribbelt das Hütchen vor dem Starthütchen, passt zum nächsten Spieler und läuft zum Starthütchen zurück.\nDer erste Spieler des anderen Teams dribbelt kurz an, passt durch das Hütchentor zum Spieler gegenüber und läuft seinem Pass nach.\nWelches Team spielt mehr Pässe durch das Hütchentor, bevor das andere Team einen kompletten Durchgang absolviert hat?",
+      Some("Nur mit rechts/links passen.\n2 Durchgänge spielen."),
+      Some(getImageData("pass_und_laufkreuz.png")), Some("Das jeweilige Team zählt die Pässe durch das Hütchentor laut mit.\nPass-, Dribbel- und Laufwege beider Teams kreuzen sich. Deshalb auf freie Passwege achten und nur bei Blickkontakt zum Mitspieler zuspielen.\nPositions- und Aufgabenwechsel nach jedem Durchgang.")))
+
+    addExercise(Exercise(13, "Torschuss-Passspiel", Exercisetype.shot, Teamtype.F,
+      "Auf jeder Seite neben einem Tor ein Starthütchen aufstellen\n20 Meter vor jedem Starthütchen ein weiteres Hütchen positionieren\nAuf der einen Seite im weiteren Abstand von 10 Metern ein drittes Hütchen aufstellen\nDie Spieler mit Bällen an die Starthütchen und ohne Ball an die anderen Hütchen verteilen",
+      "Die ersten Spieler starten gleichzeitig ins Dribbling und passen zum Spieler am nächsten Hütchen.\nDer Passempfänger nimmt zum Tor an und mit und schießt.\nAuf der anderen Seite passt der Ballempfänger zum Spieler am nächsten Hütchen weiter, der dann auf das Tor abschließt.\nJeder Spieler läuft seinem Pass nach und stellt sich nach dem Torschuss am anderen Starthütchen an.",
+      Some("Nur mit rechts/links passen.\nNach jedem Torschuss läuft der Schütze ins Tor und wird Torhüter.\nDer Spieler, der zuerst schießt, wird Verteidiger und spielt 1 gegen 1 gegen den anderen Spieler."),
+      Some(getImageData("torschuss_passspiel.png")), Some("Die Spieler nach einigen Durchgängen selbstständig starten lassen.\nDen Abstand der Hütchen vergrößern oder verringern.")))
+
+    addExercise(Exercise(14, "Pass-Tor-Spiel", Exercisetype.freeplay, Teamtype.F,
+      "Ein 20 x 20 Meter großes Spielfeld markieren\nAuf jeder Grundlinie zwei 2 Meter breite Hütchentore aufstellen\n3 Teams einteilen\n2 Teams im Feld und die Spieler des dritten Teams hinter den Hütchentoren postieren",
+      "Spiel im 4 gegen 4.\nNach einem Treffer dribbelt der Spieler des Hütchentores ins Feld und greift mit seinem Team auf die gegenüberliegenden Hütchentore an.\nDie Spieler des unterlegenen Teams postieren sich hinter den Hütchentoren.",
+      Some("Die Hütchentore vergrößern oder verkleinern.\nMit maximal drei Ballkontakten spielen."),
+      Some(getImageData("pass_tor_spiel.png")), Some("Als unterlegenes Team das Spielfeld sofort verlassen und schnell die Positionen hinter den Hütchentoren einnehmen.\nJedes Team bestimmt einen Kapitän, der die erzielten Treffer mitzählt.")))
+
+    addExercise(Exercise(15, "", Exercisetype.pass, Teamtype.F,
+      "",
+      "",
+      Some(""),
+      Some(getImageData("team_torschuss.png")), Some("")))
+
+    addExercise(Exercise(16, "", Exercisetype.pass, Teamtype.F,
+      "",
+      "",
+      Some(""),
+      Some(getImageData("team_torschuss.png")), Some("")))
+
+    addExercise(Exercise(17, "", Exercisetype.pass, Teamtype.F,
+      "",
+      "",
+      Some(""),
+      Some(getImageData("team_torschuss.png")), Some("")))
+
     // teamevent
     Logger.info("Load teamevent...")
     val teamevent1 = Teamevent(1, "Sommerfest", "Bienenheimstr. 7", "81249", "München", getDate(2018, 7, 30), getTime(15,0),
@@ -186,6 +242,11 @@ class DataService @Inject()(clubDao: ClubDAO, teamDao: TeamDAO, personDao: Perso
     Logger.info("Load parenthoods...")
     addParenthood(parentAHarrerId, playerPHarrerId)
     addParenthood(parentJRiechersId, playerJRiechersId)
+  }
+
+
+  private def addExercise(exercise: Exercise) = {
+    Await.result(exerciseDAO.createExercise(exercise), Duration.Inf)
   }
 
   private def addParenthood(parentId: Int, playerId: Int) = {
